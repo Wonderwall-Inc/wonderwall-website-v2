@@ -15,12 +15,12 @@ If you have not done so already, you need to have standalone copy of this repo o
 
 Use the `git` CLI to clone this template directly to your machine:
 
-    git clone -n --depth=1 --filter=tree:0 https://github.com/Wonderwall-Inc/golfin-website-v4 && cd golfin-website-v4
+    git clone -n --depth=1 --filter=tree:0 https://github.com/Wonderwall-Inc/wonderwall-website-v2 && cd wonderwall-website-v4
 
 ### Development
 
 1. First [clone the repo](#clone) if you have not done so already
-2. `cd golfin-website-v4 && cp .env.example .env` to copy the example environment variables
+2. `cd wonderwall-website-v2 && cp .env.example .env` to copy the example environment variables
 3. Update the environment variables in `.env`
 4. `npm i && npm run dev` to install dependencies and start the dev server
 5. open `http://localhost:3000` to open the app in your browser

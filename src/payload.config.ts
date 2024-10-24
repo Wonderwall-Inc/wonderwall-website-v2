@@ -3,10 +3,13 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 
 import { payloadCloudPlugin } from '@payloadcms/plugin-cloud'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import {
   BoldFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
   ItalicFeature,
   LinkFeature,
   lexicalEditor,
@@ -27,7 +30,7 @@ import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-
+import { seedHandler } from './endpoints/seedHandler'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -119,6 +122,15 @@ export default buildConfig({
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  endpoints: [
+    // The seed endpoint is used to populate the database with some example data
+    // You should delete this endpoint before deploying your site to production
+    {
+      handler: seedHandler,
+      method: 'get',
+      path: '/seed',
+    },
+  ],
   globals: [Header, Footer],
   localization: {
     locales: ['en', 'ja'],
@@ -179,6 +191,32 @@ export default buildConfig({
           localized: true
         }
       }
+    }),
+    formBuilderPlugin({
+      fields: {
+        payment: false,
+      },
+      formOverrides: {
+        fields: ({ defaultFields }) => {
+          return defaultFields.map((field) => {
+            if ('name' in field && field.name === 'confirmationMessage') {
+              return {
+                ...field,
+                editor: lexicalEditor({
+                  features: ({ rootFeatures }) => {
+                    return [
+                      ...rootFeatures,
+                      FixedToolbarFeature(),
+                      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    ]
+                  },
+                }),
+              }
+            }
+            return field
+          })
+        },
+      },
     }),
     payloadCloudPlugin(), // storage-adapter-placeholder
   ],

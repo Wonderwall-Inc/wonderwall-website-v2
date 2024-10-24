@@ -14,9 +14,10 @@ export const Header: GlobalConfig = {
       type: 'array',
       fields: [
         link({
-          appearances: false,
+          appearances: false
         }),
       ],
+      localized: true,
       maxRows: 6,
     },
   ],

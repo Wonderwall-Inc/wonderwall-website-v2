@@ -26,7 +26,7 @@ export async function generateStaticParams() {
     overrideAccess: false
   })
 
-  return posts.docs?.map(({ slug }) => slug)
+  return posts.docs?.map(({ slug }) => ({ slug }))
 }
 
 export default async function Post({ params }) {
