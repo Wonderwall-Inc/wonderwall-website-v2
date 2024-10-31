@@ -819,6 +819,7 @@ export interface Footer {
           url?: string | null;
           label: string;
         };
+        footer_link_category?: ('services' | 'recruitment' | 'about' | 'copyright_link') | null;
         id?: string | null;
       }[]
     | null;

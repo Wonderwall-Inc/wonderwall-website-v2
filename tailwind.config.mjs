@@ -35,11 +35,9 @@ export default {
         xl: '2rem',
       },
       screens: {
-        '2xl': '86rem',
-        lg: '64rem',
-        md: '48rem',
-        sm: '40rem',
-        xl: '80rem',
+        sm: '500px',
+        md: '720px',
+        lg: '960px',
       },
     },
     extend: {
