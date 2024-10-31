@@ -62,9 +62,9 @@ export async function Footer() {
   const thisYear = (new Date()).getFullYear();
 
   return (
-    <footer className="flex flex-col items-center text-center">
+    <footer className="footer flex flex-col items-center text-center">
       <div className="w-100p lg:w-960">
-        <div className="flex flex-col padding-10 items-center justify-around border-b border-gray-500 py-15 md:py-30 lg:flex-row">
+        <div className="flex flex-col px-[10px] items-center justify-around border-b border-gray-500 py-[15px] md:py-30 lg:flex-row">
           <div className="mb-5 flex items-center justify-center lg:mb-0 lg:w-[280px]">
             <Link href="/">
               <Image

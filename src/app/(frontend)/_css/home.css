@@ -7,68 +7,21 @@
 }
 
 .work-card {
-   &-item {
-      background: #efefef
-   }
-
-   &-item {
+   .work-card-item {
+      background: #efefef;
       display: flex;
-   }
-
-   &-item {
       flex-direction: column;
-   }
-
-   &-item {
       justify-content: center;
-   }
-
-   @media (min-width: 960px) {
-      &-item {
-         justify-content: flex-start;
-      }
-   }
-
-   &-item {
       padding: 10px;
-   }
-
-   @media (min-width: 720px) {
-      &-item {
-         padding: 15px;
-      }
-   }
-
-   &-item {
       position: relative;
-   }
-
-   &-item {
       overflow: hidden;
-   }
 
-   &-item {
       img {
          left: auto !important;
-      }
-
-      img {
          top: auto !important;
-      }
-
-      img {
          right: 0px !important;
-      }
-
-      img {
          bottom: 0px !important;
-      }
-
-      img {
          height: auto !important;
-      }
-
-      img {
          width: 30% !important;
       }
 
@@ -125,9 +78,6 @@
 
          img {
             height: 70% !important;
-         }
-
-         img {
             width: auto !important;
          }
 
@@ -144,6 +94,18 @@
                text-align: left;
             }
          }
+      }
+   }
+
+   @media (min-width: 960px) {
+      .work-card-item {
+         justify-content: flex-start;
+      }
+   }
+
+   @media (min-width: 720px) {
+      .work-card-item {
+         padding: 15px;
       }
    }
 }

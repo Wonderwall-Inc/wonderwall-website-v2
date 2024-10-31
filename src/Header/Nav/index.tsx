@@ -20,7 +20,7 @@ export const HeaderNav: React.FC<Props> = ({ header, isNavOpen }) => {
         {navItems.map(({ link }, i) => {
           return (
             <li className='border-b border-solid border-green-250 w-100p' key={i}>
-              <CMSLink {...link} className='padding-10 text-white' appearance='link' />
+              <CMSLink {...link} className='font-thin padding-10 text-white' appearance='link' />
             </li>
           )
         })}
@@ -33,7 +33,7 @@ export const HeaderNav: React.FC<Props> = ({ header, isNavOpen }) => {
       {navItems.map(({ link }, i) => {
         return (
           <li key={i}>
-            <CMSLink {...link} className='text-white' appearance='link' />
+            <CMSLink {...link} className='font-thin text-white' appearance='link' />
           </li>
         )
       })}

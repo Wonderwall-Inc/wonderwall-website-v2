@@ -138,7 +138,7 @@ html[data-theme='light'] {
 
 @layer base {
   body {
-    @apply bg-gray-200;
+    background-color: rgb(255, 255, 255);
     @apply text-textColor;
   }
 }
@@ -194,6 +194,10 @@ html[data-theme='light'] {
         @apply w-[120px];
       }
     }
+  }
+
+  .footer {
+    background-color: rgb(237, 237, 237);
   }
 
   .footer-nav {

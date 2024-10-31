@@ -43,7 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
   }
 
   return (
-    <header className="container sticky top-0 z-50 flex items-center flex-col justify-start bg-color-primary text-white-100">
+    <header className="font-thin container sticky top-0 z-50 flex items-center flex-col justify-start bg-color-primary text-white-100">
       <div className="flex items-center w-100p justify-between padding-10 lg:padding-y-15 lg:w-960">
         <div className="">
           <Link
