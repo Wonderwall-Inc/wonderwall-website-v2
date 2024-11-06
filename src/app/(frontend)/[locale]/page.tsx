@@ -6,10 +6,6 @@ import { getPayloadHMR } from '@payloadcms/next/utilities'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
-import type { Page as PageType } from '@/payload-types'
-
-import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 
 export const dynamic = 'force-static'
@@ -23,22 +19,9 @@ export default async function Page({ params }) {
   const { slug = 'home' } = (await params)
   const url = '/' + slug
 
-  let page: PageType | null
-
-  page = await queryPageBySlug({
-    slug,
-  })
-
-  const { hero, layout } = page
-
-
   return (
     <article className="pt-16 pb-24">
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
     </article>
   )
 }

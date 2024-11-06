@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import { unstable_cache } from 'next/cache'
 import { DataFromGlobalSlug } from 'payload'
+import { getLocale } from './getLocale'
 
 type Global = keyof Config['globals']
 
@@ -13,6 +14,7 @@ async function getGlobal(slug: Global, depth = 0): Promise<DataFromGlobalSlug<"f
   const global = await payload.findGlobal({
     slug,
     depth,
+    locale: getLocale() === 'ja-jp' ? 'ja' : 'en'
   })
 
   return global

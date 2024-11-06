@@ -1,0 +1,149 @@
+.w-480 {
+   width: 480px;
+}
+
+.w-100p {
+   width: 100%;
+}
+
+.work-card {
+   &-item {
+      background: #efefef
+   }
+
+   &-item {
+      display: flex;
+   }
+
+   &-item {
+      flex-direction: column;
+   }
+
+   &-item {
+      justify-content: center;
+   }
+
+   @media (min-width: 960px) {
+      &-item {
+         justify-content: flex-start;
+      }
+   }
+
+   &-item {
+      padding: 10px;
+   }
+
+   @media (min-width: 720px) {
+      &-item {
+         padding: 15px;
+      }
+   }
+
+   &-item {
+      position: relative;
+   }
+
+   &-item {
+      overflow: hidden;
+   }
+
+   &-item {
+      img {
+         left: auto !important;
+      }
+
+      img {
+         top: auto !important;
+      }
+
+      img {
+         right: 0px !important;
+      }
+
+      img {
+         bottom: 0px !important;
+      }
+
+      img {
+         height: auto !important;
+      }
+
+      img {
+         width: 30% !important;
+      }
+
+      h2 {
+         text-align: center;
+      }
+
+      @media (min-width: 960px) {
+         h2 {
+            text-align: left;
+         }
+      }
+
+      &:not(:last-child) {
+         height: 120px;
+      }
+
+      &:not(:last-child) {
+         .work-card-ul {
+            li {
+               &::after {
+                  content: '/';
+               }
+
+               &:last-child {
+                  &::after {
+                     content: initial;
+                  }
+               }
+            }
+         }
+      }
+
+      &:last-child {
+         &>div {
+            display: flex;
+         }
+
+         &>div {
+            flex-direction: column;
+         }
+
+         @media (min-width: 960px) {
+            &>div {
+               flex-direction: row;
+            }
+         }
+
+         @media (min-width: 960px) {
+            &>div {
+               gap: 2.5rem;
+            }
+         }
+
+         img {
+            height: 70% !important;
+         }
+
+         img {
+            width: auto !important;
+         }
+
+         .work-card-ul {
+            flex-direction: column;
+         }
+
+         .work-card-ul {
+            text-align: center;
+         }
+
+         @media (min-width: 960px) {
+            .work-card-ul {
+               text-align: left;
+            }
+         }
+      }
+   }
+}
