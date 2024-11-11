@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "home.css";
+@import "services.css";
 @import "menu.css";
 @import "_vars.css";
 
@@ -145,18 +146,19 @@ html[data-theme='light'] {
 
 @layer components {
   .breadcrumb {
-    @apply padding-10 md:p-15 lg:py-30 lg:px-0;
+    @apply py-10;
+    @apply font-thin;
 
     li {
       &:not(:last-child) {
         &::after {
+          padding: 0 4px;
           content: '/';
-          @apply mx-2;
         }
       }
 
       &:last-child {
-        @apply text-gray-300;
+        color: #bbb9b9;
       }
     }
   }
