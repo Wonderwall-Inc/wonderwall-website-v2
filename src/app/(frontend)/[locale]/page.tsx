@@ -7,6 +7,9 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
 import { generateMeta } from '@/utilities/generateMeta'
+import { HomeHeader } from '@/components/Home/HomeHeader'
+import { HomeWorks } from '@/components/Home/HomeWorks'
+import { HomeNews } from '@/components/Home/HomeNews'
 
 export const dynamic = 'force-static'
 
@@ -20,8 +23,11 @@ export default async function Page({ params }) {
   const url = '/' + slug
 
   return (
-    <article className="pt-16 pb-24">
+    <article>
       <PayloadRedirects disableNotFound url={url} />
+      <HomeHeader />
+      <HomeWorks />
+      <HomeNews />
     </article>
   )
 }
