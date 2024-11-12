@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "form.css";
 @import "home.css";
 @import "services.css";
 @import "menu.css";
@@ -29,6 +30,10 @@
 
   .w-960 {
     width: 960px;
+  }
+
+  .w-720 {
+    width: 720px;
   }
 
   .h-100p {

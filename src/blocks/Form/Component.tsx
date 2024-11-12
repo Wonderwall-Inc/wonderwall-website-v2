@@ -30,6 +30,46 @@ export type FormBlockType = {
   }[]
 }
 
+interface DataToSend {
+  field: string
+  value: Property | Property[]
+}
+
+interface FormValues {
+  name: string | null
+  email: string | null
+  message: string | null
+}
+
+const sendToFormSubmission = async (formID: string | undefined, dataToSend: DataToSend[]) => {
+  return fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
+    body: JSON.stringify({
+      form: formID,
+      submissionData: dataToSend,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+  })
+
+}
+
+const sendToWonderWall = async (formValues: FormValues) => {
+  return fetch('info@wonderwall-g.com', {
+    body: JSON.stringify({
+      name: formValues['name'],
+      email: formValues['email'],
+      body: formValues['message']
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  });
+
+}
+
 export const FormBlock: React.FC<
   {
     id?: string
@@ -74,16 +114,32 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-          })
+          let req
+
+          if (process.env.NODE_ENV === 'production') {
+            let formValues: FormValues = {
+              name: null,
+              email: null,
+              message: null
+            }
+
+            dataToSend.forEach(data => {
+              if (data.field === 'name' || data.field === 'email' || data.field === 'message') {
+                formValues = { ...formValues, [data.field]: data.value }
+              }
+            }
+            )
+
+            if (!formValues['name'] || !formValues['email'] || !formValues['message']) {
+              console.error(`Contact form was missing a name, email, or message field. Submitting to form-submissions. Payload: ${formValues}`)
+              req = await sendToFormSubmission(formID, dataToSend)
+            } else {
+              req = sendToWonderWall(formValues)
+            }
+
+          }
+
+          req = await sendToFormSubmission(formID, dataToSend)
 
           const res = await req.json()
 

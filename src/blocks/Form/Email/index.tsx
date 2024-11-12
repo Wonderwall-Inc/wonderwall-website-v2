@@ -7,6 +7,7 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { getErrorMessage } from '@/utilities/getErrorMessage'
 
 export const Email: React.FC<
   EmailField & {
@@ -20,7 +21,11 @@ export const Email: React.FC<
 > = ({ name, defaultValue, errors, label, register, required: requiredFromProps, width }) => {
   return (
     <Width width={width}>
-      <Label htmlFor={name}>{label}</Label>
+      <div className="flex mb-2 gap-[5px]">
+        <Label htmlFor={name}>{label}</Label>
+        {requiredFromProps && errors[name] &&
+          <Error message={getErrorMessage({ errorType: 'required', label })} />}
+      </div>
       <Input
         defaultValue={defaultValue}
         id={name}
@@ -28,7 +33,6 @@ export const Email: React.FC<
         {...register(name, { pattern: /^\S[^\s@]*@\S+$/, required: requiredFromProps })}
       />
 
-      {requiredFromProps && errors[name] && <Error />}
     </Width>
   )
 }

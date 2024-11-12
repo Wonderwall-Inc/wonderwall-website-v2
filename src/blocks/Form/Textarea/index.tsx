@@ -7,6 +7,7 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { getErrorMessage } from '@/utilities/getErrorMessage'
 
 export const Textarea: React.FC<
   TextField & {
@@ -25,21 +26,24 @@ export const Textarea: React.FC<
   label,
   register,
   required: requiredFromProps,
-  rows = 3,
+  rows = 9,
   width,
 }) => {
-  return (
-    <Width width={width}>
-      <Label htmlFor={name}>{label}</Label>
+    return (
+      <Width width={width}>
+        <div className='flex mb-2 gap-[5px]'>
+          <Label htmlFor={name}>{label}</Label>
+          {requiredFromProps && errors[name] &&
+            <Error message={getErrorMessage({ errorType: 'required', label })} />}
+        </div>
 
-      <TextAreaComponent
-        defaultValue={defaultValue}
-        id={name}
-        rows={rows}
-        {...register(name, { required: requiredFromProps })}
-      />
+        <TextAreaComponent
+          defaultValue={defaultValue}
+          id={name}
+          rows={rows}
+          {...register(name, { required: requiredFromProps })}
+        />
 
-      {requiredFromProps && errors[name] && <Error />}
-    </Width>
-  )
-}
+      </Width>
+    )
+  }
