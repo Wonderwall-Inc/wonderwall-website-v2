@@ -7,9 +7,9 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
 import { generateMeta } from '@/utilities/generateMeta'
-import { HomeHeader } from '@/components/Home/HomeHeader'
 import { HomeWorks } from '@/components/Home/HomeWorks'
 import { HomeNews } from '@/components/Home/HomeNews'
+import { RenderHero } from '@/heros/RenderHero'
 
 export const dynamic = 'force-static'
 
@@ -22,10 +22,13 @@ export default async function Page({ params }) {
   const { slug = 'home' } = (await params)
   const url = '/' + slug
 
+  const page = await queryPageBySlug({ slug: 'home' })
+
+
   return (
     <article>
       <PayloadRedirects disableNotFound url={url} />
-      <HomeHeader />
+      <RenderHero {...page.hero} />
       <HomeWorks />
       <HomeNews />
     </article>

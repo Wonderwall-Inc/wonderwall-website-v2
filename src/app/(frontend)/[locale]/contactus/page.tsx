@@ -1,26 +1,25 @@
 
 
-import BreadCrumb from '@/components/ui/breadcrumb';
 import { generateMeta } from '@/utilities/generateMeta';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import configPromise from '@payload-config'
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { cache } from 'react';
+import BreadCrumb from '@/components/ui/breadcrumb';
+import { RenderBlocks } from '@/blocks/RenderBlocks';
 
 export default async function Page() {
   const page = await queryPageBySlug()
-  console.log({ page })
   return (
-    <>
-      <BreadCrumb path="/contactus" />
-      <div className='w720 py-30 md:py-50'>
-        <p className='mb-3'>お問い合わせはこちらのフォームより入力してください。<br />
-          内容確認後、担当者よりメールにてご返答いたします。</p>
-        <p className='mb-3'>なお、サービスのご案内に関するお問い合わせに関しましては、<br />
-          ご返信できかねる場合もございますことをご了承ください。</p>
+    <div className="px-[15px] lg:px-0">
+      <div className="w-960 m-auto">
+        <BreadCrumb path="/contactus" />
       </div>
-    </>
+      <div className='contact-form w-100p lg:w-720 m-auto py-[15px] md:py-[30px]'>
+        <RenderBlocks blocks={page.layout} />
+      </div>
+    </div>
   )
 }
 
@@ -40,6 +39,7 @@ const queryPageBySlug = cache(async () => {
     draft,
     limit: 1,
     overrideAccess: true,
+    locale: 'ja',
     where: {
       slug: {
         equals: 'contactus'

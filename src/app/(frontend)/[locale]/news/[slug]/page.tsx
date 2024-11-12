@@ -45,11 +45,13 @@ export default async function Post({ params }) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container lg:mx-0 lg:grid lg:grid-cols-[1fr_48rem_1fr] grid-rows-[1fr]">
-          <RichText
-            className="lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[1fr]"
-            content={post.content}
-            enableGutter={false}
-          />
+          {post.content && (
+            <RichText
+              className="lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[1fr]"
+              content={post.content}
+              enableGutter={false}
+            />
+          )}
         </div>
       </div>
     </article>

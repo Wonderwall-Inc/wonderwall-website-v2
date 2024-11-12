@@ -29,11 +29,8 @@ export const FooterLinkCategory = (props: Props) => {
     }
   }
 
-  console.log(props.category)
-
   return (
     <div className="flex">
-      {/* <ArrowRightCircleIcon className="mr-[10px] w-[20px] text-green-500" /> */}
       <div className="mb-3 text-left">
         <h4 className="mb-2 flex text-xl font-bold text-color-primary">
           <span>{localizedCategory ? localizedCategory : props.category ?? ''}</span>

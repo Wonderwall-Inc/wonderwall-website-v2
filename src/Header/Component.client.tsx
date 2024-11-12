@@ -8,12 +8,15 @@ import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 
 import { HeaderNav } from './Nav'
+import { getPathPageTitle } from '@/constants/urlPaths'
+import { getLocale } from '@/utilities/getLocale'
 
 interface HeaderClientProps {
   header: Header
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
+  const locale = getLocale()
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -34,6 +37,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
     isOpened: false,
   });
 
+
   const navToggleClick = () => {
     setValues({
       ...values,
@@ -42,9 +46,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
     });
   }
 
+  const path = usePathname();
+  const [_, pathWithoutLocale] = path.split(`/${locale}`)
+  const pageTitle = path !== '/' && getPathPageTitle(pathWithoutLocale)
+
   return (
-    <header className="font-thin container sticky top-0 z-50 flex items-center flex-col justify-start bg-color-primary text-white-100">
-      <div className="flex items-center w-100p justify-between padding-10 lg:padding-y-15 lg:w-960">
+    <header className="font-thin container sticky top-0 z-50 flex items-center lg:items-start flex-col justify-start bg-color-primary text-white-100">
+      <div className="m-auto flex items-center w-100p justify-between padding-10 lg:padding-y-15 lg:w-960">
         <div className="">
           <Link
             href="/"
@@ -71,6 +79,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
             <HeaderNav header={header} isNavOpen={values.isNavOpen} />
           </ul>
         </div>
+        : ''
+      }
+      {pageTitle
+        ? <>
+          <div className="w-100p w-960 m-auto text-white">
+            <h2 className="py-[15px] text-2xl px-[10px] lg:py-[30px] lg:px-0 lg:text-4xl">{pageTitle}</h2>
+          </div>
+        </>
         : ''
       }
     </header>

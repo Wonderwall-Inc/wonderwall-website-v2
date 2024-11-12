@@ -453,8 +453,10 @@ export interface Post {
   id: number;
   title: string;
   description?: string | null;
-  thumbnail: number | Media;
-  content: {
+  thumbnail?: (number | null) | Media;
+  externallink?: string | null;
+  internallink?: string | null;
+  content?: {
     root: {
       type: string;
       children: {
@@ -468,7 +470,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   relatedPosts?: (number | Post)[] | null;
   categories: (number | Category)[];
   meta?: {

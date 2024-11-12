@@ -105,8 +105,6 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-body': 'var(--text)',
-            '--tw-prose-headings': 'var(--text)',
             h1: {
               fontSize: '4rem',
               fontWeight: 'normal',

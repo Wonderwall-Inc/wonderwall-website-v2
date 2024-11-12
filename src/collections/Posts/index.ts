@@ -40,7 +40,7 @@ export const Posts: CollectionConfig = {
       url: ({ data, locale }) => {
         const path = generatePreviewPath({
           locale: locale.code === 'en' ? 'en-us' : 'ja',
-          slug: typeof data?.slug === 'string' ? data.slug : '',
+          slug: data?.slug.length ? data.slug : data?.id ? data?.id.toString() : '',
           collection: 'posts',
         })
 
@@ -50,7 +50,7 @@ export const Posts: CollectionConfig = {
     preview: (data, options) => {
       const path = generatePreviewPath({
         locale: options.locale === 'en' ? 'en-us' : 'ja',
-        slug: typeof data?.slug === 'string' ? data.slug : '',
+        slug: (data?.slug as string).length ? data.slug as string : data?.id ? data?.id.toString() : '',
         collection: 'posts',
       })
 
@@ -75,8 +75,17 @@ export const Posts: CollectionConfig = {
     {
       name: 'thumbnail',
       type: 'upload',
-      required: true,
       relationTo: 'media'
+    },
+    {
+      name: 'externallink',
+      type: 'text',
+      required: false
+    },
+    {
+      name: 'internallink',
+      type: 'text',
+      required: false
     },
     {
       type: 'tabs',
@@ -100,7 +109,6 @@ export const Posts: CollectionConfig = {
                 },
               }),
               label: false,
-              required: true,
             },
           ],
           label: 'Content',

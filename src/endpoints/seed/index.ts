@@ -83,8 +83,6 @@ export const seed = async ({
     req,
   })
 
-  console.log({ pages })
-
   payload.logger.info(`— Seeding demo author and user...`)
 
   await payload.delete({
