@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "form.css";
+@import "contact-form.css";
 @import "home.css";
 @import "services.css";
 @import "menu.css";
+@import "footer.css";
 @import "_vars.css";
 
 @layer base {
@@ -144,7 +145,7 @@ html[data-theme='light'] {
 
 @layer base {
   body {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(237 237 237);
     @apply text-textColor;
   }
 }
@@ -203,21 +204,6 @@ html[data-theme='light'] {
     }
   }
 
-  .footer {
-    background-color: rgb(237, 237, 237);
-  }
-
-  .footer-nav {
-    @apply padding-y-30 md:padding-y-10;
-    @apply text-xs;
-    /* @apply flex flex-col-reverse items-center; */
-    /* @apply md:flex md:flex-row md:justify-start md:gap-5; */
-
-    &-list {
-      @apply flex gap-2;
-      @apply md:gap-15;
-    }
-  }
 }
 
 @layer utilities {

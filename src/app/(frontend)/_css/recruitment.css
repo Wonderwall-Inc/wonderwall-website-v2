@@ -6,28 +6,12 @@
   padding-left: 0.75rem !important;
   padding-right: 0.75rem !important;
   padding-top: 1rem !important;
-  padding-bottom: 1rem !important
-}
+  padding-bottom: 1rem !important;
 
-@media (min-width: 720px) {
-  .card {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important
-  }
-}
-
-.card {
   h3 {
+    font-size: 18px !important;
+    font-weight: 600 !important;
     font-family: Noto Sans JP, sans-serif !important
-  }
-
-  h3 {
-    font-size: 18px !important
-  }
-
-  h3 {
-    font-weight: 600 !important
   }
 
   p {
@@ -41,26 +25,17 @@
   }
 
   a {
-    border-radius: 0.5rem !important
+    border-radius: 0.5rem !important;
+    background-color: rgb(78 165 94);
+    padding: 0.5rem 0.75rem !important;
+    color: rgb(255 255 255);
   }
+}
 
-  a {
-    --tw-bg-opacity: 1 !important;
-    background-color: rgb(78 165 94 / var(--tw-bg-opacity)) !important
-  }
-
-  a {
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important
-  }
-
-  a {
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important
-  }
-
-  a {
-    --tw-text-opacity: 1 !important;
-    color: rgb(255 255 255 / var(--tw-text-opacity)) !important
+@media (min-width: 720px) {
+  .card {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important
   }
 }

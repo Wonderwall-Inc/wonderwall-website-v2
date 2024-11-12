@@ -35,7 +35,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <LivePreviewListener />
 
           <Header />
-          {children}
+          <main className='bg-white-100'>
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>

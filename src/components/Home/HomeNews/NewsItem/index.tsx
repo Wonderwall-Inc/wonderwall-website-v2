@@ -1,7 +1,9 @@
+import { Post } from '@/payload-types';
+import Link from 'next/link';
 import React from 'react';
 
-type NewsItemProp = {
-  newsItem: any
+interface Props {
+  newsPost: Post
 }
 
 const monthEn3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -12,28 +14,36 @@ const getNewsFormattedDate = (date: Date) => {
   return `${month} ${day}, ${year}`;
 }
 
-export const HomeNewsItem = (props: NewsItemProp) => {
+export const HomeNewsItem = ({ newsPost }: Props) => {
+
+  const classNames = ["inline-block", "w-[120px]", "text-center", 'bg-grey-22', 'text-textColor'];
+  const category = newsPost?.externallink ? 'PRESS' : 'INFO'
+  const linkClassNames = 'font-thin w-100 md:flex-1'
+
+  let redirectLink
+
+  if (newsPost.externallink) {
+    redirectLink = (
+      <a className={linkClassNames} href={newsPost.externallink} target='_blank'>{newsPost.title}</a>
+    )
+  } else if (!newsPost.content) {
+    redirectLink = (
+      <span className='font-thin w-100 md:flex-1'>{newsPost.title}</span>
+    )
+  } else {
+    redirectLink = (
+      <Link className={linkClassNames} href={`/news/${newsPost.slug?.length ? newsPost.slug : newsPost.id}`}>
+        {newsPost.title}
+      </Link>
+    )
+  }
+
 
   return (
     <li className='flex flex-wrap items-start justify-start gap-2 border-b border-dashed py-3'>
-      <span className='inline-block w-[100px]'>{getNewsFormattedDate(props.newsItem.published)}</span>
-      {props.newsItem.categories?.map((category, index) => {
-
-        const bgColor = category.bgColor ? `bg-[${category.bgColor}]` : 'bg-gray-200';
-        const textColor = category.textColor ? `text-[${category.textColor}]` : 'text-textColor';
-        const classNames = ["inline-block", "w-[120px]", "text-center", bgColor, textColor];
-
-        return (
-          <span
-            key={index}
-            className={classNames.join(' ')}
-          >{category.name}</span>
-        )
-      })}
-      {props.newsItem.path != null
-        ? <a className='font-thin w-100 md:flex-1' href={props.newsItem.path} target={props.newsItem.target ?? '_self'}>{props.newsItem.title}</a>
-        : <span className='font-thin w-100 md:flex-1'>{props.newsItem.title}</span>
-      }
+      <span className='inline-block w-[100px]'>{getNewsFormattedDate(new Date(newsPost.publishedAt))}</span>
+      <span className={classNames.join(' ')}>{category}</span>
+      {redirectLink || <span className='font-thin w-100 md:flex-1'>{newsPost.title}</span>}
     </li>
   )
 }

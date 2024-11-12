@@ -25,6 +25,7 @@ export default async function Page({ params }) {
 
   const page = await queryPageBySlug({ slug: 'home' })
 
+
   return (
     <article>
       <PayloadRedirects disableNotFound url={url} />

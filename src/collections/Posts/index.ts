@@ -75,8 +75,20 @@ export const Posts: CollectionConfig = {
     {
       name: 'thumbnail',
       type: 'upload',
-      required: true,
+      required: false,
       relationTo: 'media'
+    },
+    {
+      name: 'externallink',
+      label: 'External Link (Must only be used for linking to external websites)',
+      type: 'text',
+      required: false
+    },
+    {
+      name: 'internallink',
+      label: 'Internal Link (Must only be used for linking to internal pages like /recruitment, /services, etc)',
+      type: 'text',
+      required: false
     },
     {
       type: 'tabs',
@@ -100,7 +112,7 @@ export const Posts: CollectionConfig = {
                 },
               }),
               label: false,
-              required: true,
+              required: false,
             },
           ],
           label: 'Content',

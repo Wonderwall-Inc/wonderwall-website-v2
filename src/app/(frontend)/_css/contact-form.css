@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 .contact-form {
-
   @apply font-thin !important;
 
   h3,
@@ -46,44 +45,38 @@
       }
 
       @media (min-width: 500px) {
-        width: 300px
+        width: 300px;
       }
     }
 
   }
 
   &-wrap {
-    margin-bottom: 15px
+    margin-bottom: 15px;
   }
 
   &-wrap {
     dl {
-      margin-bottom: 0.75rem !important
+      margin-bottom: 0.75rem !important;
     }
 
     dt {
-      display: flex
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    dt {
-      flex-direction: column
-    }
-
-    dt {
-      gap: 0.5rem
-    }
 
     @media (min-width: 720px) {
       dt {
-        flex-direction: row
+        flex-direction: row;
       }
     }
   }
 
 
   .errorMessage {
-    --tw-text-opacity: 1;
-    color: rgb(159 28 32 / var(--tw-text-opacity))
+    color: rgb(159 28 32)
   }
 
   .errorMessage {
@@ -91,8 +84,7 @@
   }
 
   .error {
-    --tw-border-opacity: 1 !important;
-    border-color: rgb(159 28 32 / var(--tw-border-opacity)) !important
+    border-color: rgb(159 28 32)
   }
 }
 
@@ -101,8 +93,7 @@
   border-radius: 9999px;
   border-width: 4px !important;
   border-style: solid !important;
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(254 202 202 / var(--tw-border-opacity)) !important;
+  border-color: rgb(254 202 202);
   border-bottom-color: transparent !important;
   height: 24px;
   width: 24px
