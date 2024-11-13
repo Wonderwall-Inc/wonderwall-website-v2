@@ -40,7 +40,7 @@ export const Posts: CollectionConfig = {
       url: ({ data, locale }) => {
         const path = generatePreviewPath({
           locale: locale.code === 'en' ? 'en-us' : 'ja',
-          slug: typeof data?.slug === 'string' ? data.slug : '',
+          slug: data?.slug.length ? data.slug : data?.id ? data?.id.toString() : '',
           collection: 'posts',
         })
 
@@ -50,7 +50,7 @@ export const Posts: CollectionConfig = {
     preview: (data, options) => {
       const path = generatePreviewPath({
         locale: options.locale === 'en' ? 'en-us' : 'ja',
-        slug: typeof data?.slug === 'string' ? data.slug : '',
+        slug: (data?.slug as string).length ? data.slug as string : data?.id ? data?.id.toString() : '',
         collection: 'posts',
       })
 
@@ -75,18 +75,27 @@ export const Posts: CollectionConfig = {
     {
       name: 'thumbnail',
       type: 'upload',
+<<<<<<< HEAD
       required: false,
+=======
+>>>>>>> WWSITE-10
       relationTo: 'media'
     },
     {
       name: 'externallink',
+<<<<<<< HEAD
       label: 'External Link (Must only be used for linking to external websites)',
+=======
+>>>>>>> WWSITE-10
       type: 'text',
       required: false
     },
     {
       name: 'internallink',
+<<<<<<< HEAD
       label: 'Internal Link (Must only be used for linking to internal pages like /recruitment, /services, etc)',
+=======
+>>>>>>> WWSITE-10
       type: 'text',
       required: false
     },
@@ -112,7 +121,10 @@ export const Posts: CollectionConfig = {
                 },
               }),
               label: false,
+<<<<<<< HEAD
               required: false,
+=======
+>>>>>>> WWSITE-10
             },
           ],
           label: 'Content',

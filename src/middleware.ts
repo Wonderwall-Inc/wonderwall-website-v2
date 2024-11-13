@@ -7,8 +7,7 @@ export const config = {
 export function middleware(request: NextRequest): NextResponse<unknown> {
   const pathname = request.nextUrl.pathname
 
-  if (!pathname.includes('admin') && !pathname.includes('ja-jp') && !pathname.includes('en-us')) {
-    console.log('redirecting')
+  if (!pathname.includes('next') && !pathname.includes('admin') && !pathname.includes('ja-jp') && !pathname.includes('en-us')) {
     return NextResponse.redirect(new URL(`/ja-jp${pathname}`, request.url))
   }
 
