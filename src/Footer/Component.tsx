@@ -6,7 +6,7 @@ import type { Footer } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import configPromise from '@payload-config'
 import { FooterLinkCategory } from './FooterLink'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { getPayload } from 'payload'
 import { getLocale } from 'next-intl/server'
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap'
 
@@ -49,7 +49,7 @@ const getAboutLinks = (navItems: NavItems, key: string): NavItems => {
 }
 
 export async function Footer() {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const footer = await payload.findGlobal({
     slug: 'footer',

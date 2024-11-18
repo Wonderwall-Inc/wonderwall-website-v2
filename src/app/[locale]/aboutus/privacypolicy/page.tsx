@@ -1,37 +1,33 @@
-import BreadCrumb from '@/components/ui/breadcrumb';
+
 import { generateMeta } from '@/utilities/generateMeta';
 import { getPayload } from 'payload';
+import configPromise from '@payload-config'
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { cache } from 'react';
-import configPromise from '@payload-config'
+import BreadCrumb from '@/components/ui/breadcrumb';
 import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { setRequestLocale } from 'next-intl/server';
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap';
-
-export const dynamic = 'force-static'
-export const revalidate = 600
 
 export default async function Page({ params }) {
   const locale = (await params).locale
   setRequestLocale(locale);
   const page = await queryPageBySlug({ locale })
-
-
   return (
-    <div className='px-[15px] lg:px-[0px] w-100p lg:w-960 m-auto'>
-      <BreadCrumb path="/services" />
-      <div className='services'>
-        <section className="service">
-          <RenderBlocks blocks={page.layout} />
-        </section>
+    <div className="px-[15px] lg:px-0">
+      <div className="w-960 m-auto">
+        <BreadCrumb path="/privacypolicy" />
+      </div>
+      <div className='contact-form w-100p lg:w-720 m-auto py-[15px] md:py-[30px]'>
+        <RenderBlocks blocks={page.layout} />
       </div>
     </div>
   )
 }
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const page = await queryPageBySlug((await params).locale)
+  const page = await queryPageBySlug((await params))
 
   return generateMeta({ doc: page })
 }
@@ -46,10 +42,10 @@ const queryPageBySlug = cache(async ({ locale }) => {
     draft,
     limit: 1,
     overrideAccess: true,
-    locale: urlLocaleToLangCodeMap.get(locale),
+    locale: urlLocaleToLangCodeMap.get(await locale),
     where: {
       slug: {
-        equals: 'services'
+        equals: 'privacypolicy'
       }
     }
   })

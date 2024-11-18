@@ -10,22 +10,22 @@ type Props = {
   locale: 'en-us' | 'ja'
   collection: keyof typeof collectionPrefixMap
   slug: string
+  parentSlug?: string
 }
 
-export const generatePreviewPath = ({ locale, collection, slug }: Props): string => {
-
+export const generatePreviewPath = ({ locale, collection, slug, parentSlug }: Props): string => {
   let path = ''
   const pathLocale = locale === 'ja' ? 'ja-jp' : locale
 
   switch (collection) {
     case 'pages':
-      path = `/${pathLocale}/${slug}`
+      path = `/${pathLocale}/${parentSlug ?? ''}/${slug}`
       break
     case 'posts':
-      path = `/${pathLocale}/${collectionPrefixMap[collection]}/${slug}`
+      path = `/${pathLocale}/${collectionPrefixMap[collection]}/${parentSlug ?? ''}/${slug}`
       break
     case 'jobListings':
-      path = `/${pathLocale}/recruitment/${slug}`
+      path = `/${pathLocale}/recruitment/${parentSlug ?? ''}/${slug}`
     default:
       break
   }

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { HomeNewsItem } from './NewsItem';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { getPayload } from 'payload';
 import configPromise from '@payload-config'
 import { getLocale, getTranslations } from 'next-intl/server';
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap';
@@ -8,7 +8,7 @@ import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap';
 export const HomeNews = async () => {
   const locale = await getLocale()
   const t = await getTranslations('homePage')
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const newsPosts = await payload.find({
     collection: 'posts',

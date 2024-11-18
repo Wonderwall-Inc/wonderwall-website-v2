@@ -1,7 +1,7 @@
 
 
 import { generateMeta } from '@/utilities/generateMeta';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { getPayload } from 'payload';
 import configPromise from '@payload-config'
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 const queryPageBySlug = cache(async ({ locale }) => {
   const { isEnabled: draft } = await draftMode()
 
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
     collection: 'pages',

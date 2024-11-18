@@ -1,7 +1,7 @@
 
 import type { Metadata } from 'next'
 import configPromise from '@payload-config'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { getPayload } from 'payload'
 import React from 'react'
 
 import BreadCrumb from '@/components/ui/breadcrumb'
@@ -17,7 +17,7 @@ export default async function Page({ params }) {
   const locale = (await params).locale
   const t = await getTranslations('recruitmentPage')
   setRequestLocale(locale);
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
   const { isEnabled: draft } = await draftMode()
 
   const result = await payload.find({

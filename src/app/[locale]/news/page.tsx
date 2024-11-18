@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { getPayload } from 'payload'
 import React from 'react'
 import { HomeNewsItem } from '@/components/Home/HomeNews/NewsItem'
 import Link from 'next/link'
@@ -15,7 +15,7 @@ export const revalidate = 600
 export default async function Page({ params }) {
   const locale = (await params).locale
   setRequestLocale(locale);
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const newsPosts = await payload.find({
     collection: 'posts',

@@ -5,6 +5,7 @@ import {
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  OrderedListFeature,
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
 
@@ -43,6 +44,7 @@ const columnFields: Field[] = [
           ...rootFeatures,
           HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
           UnorderedListFeature(),
+          OrderedListFeature(),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
         ]

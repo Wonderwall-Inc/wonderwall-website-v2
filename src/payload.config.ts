@@ -129,6 +129,11 @@ export default buildConfig({
     fallback: true
   },
   plugins: [
+    nestedDocsPlugin({
+      collections: ['pages'],
+      generateLabel: (_, doc) => doc.title as string,
+      generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
+    }),
     s3Storage({
       collections: {
         media: {
@@ -174,14 +179,19 @@ export default buildConfig({
     seoPlugin({
       generateTitle,
       generateURL,
-      fieldOverrides: {
-        title: {
+      fields: ({ defaultFields }) => [
+        ...defaultFields,
+        {
+          name: 'title',
+          type: 'text',
           localized: true
         },
-        description: {
+        {
+          name: 'description',
+          type: 'text',
           localized: true
-        }
-      }
+        },
+      ]
     }),
     formBuilderPlugin({
       fields: {

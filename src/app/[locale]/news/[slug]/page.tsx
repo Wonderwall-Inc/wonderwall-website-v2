@@ -1,7 +1,7 @@
 
 import type { Metadata } from 'next'
 import configPromise from '@payload-config'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
@@ -16,7 +16,7 @@ export const dynamic = 'force-static'
 export const revalidate = 600
 
 export async function generateStaticParams() {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({
     collection: 'posts',
     draft: false,
@@ -63,7 +63,7 @@ const queryPost = cache(async (params) => {
   const { isEnabled: draft } = await draftMode()
   const { locale, slug } = await params
 
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const isSlugAnId = Number(slug)
 
