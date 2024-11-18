@@ -72,6 +72,7 @@ export const Pages: CollectionConfig = {
               type: 'blocks',
               blocks: [CallToAction, Content, FormBlock, MediaBlock],
               required: true,
+              localized: true
             },
           ],
           label: 'Content',

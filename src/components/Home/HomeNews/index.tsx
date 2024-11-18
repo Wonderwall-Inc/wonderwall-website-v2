@@ -2,8 +2,12 @@ import Link from 'next/link';
 import { HomeNewsItem } from './NewsItem';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import configPromise from '@payload-config'
+import { getLocale, getTranslations } from 'next-intl/server';
+import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap';
 
 export const HomeNews = async () => {
+  const locale = await getLocale()
+  const t = await getTranslations('homePage')
   const payload = await getPayloadHMR({ config: configPromise })
 
   const newsPosts = await payload.find({
@@ -11,7 +15,7 @@ export const HomeNews = async () => {
     depth: 1,
     limit: 5,
     sort: '-publishedAt',
-    locale: 'ja',
+    locale: urlLocaleToLangCodeMap.get(locale),
     where: {
       'categories.title': {
         equals: 'News'
@@ -20,8 +24,8 @@ export const HomeNews = async () => {
   })
   return (
     <section className="text-center">
-      <div className="w-100p lg:w-960 px-[10px] py-[15px] m-auto lg:px-0 text-left md:py-[30px]">
-        <h2 className="mb-3 text-2xl text-color-primary md:text-3xl lg:text-4xl">News</h2>
+      <div className="w-100p lg:w-960 px-[15px] py-[15px] m-auto lg:px-0 text-left md:py-[30px]">
+        <h2 className="mb-3 text-2xl text-color-primary md:text-3xl lg:text-4xl">{t('newsLabel')}</h2>
         <ul className='mb-5'>
           {newsPosts.docs.map((newsPost, index) => (
             <HomeNewsItem key={index} newsPost={newsPost} />
@@ -30,7 +34,7 @@ export const HomeNews = async () => {
         <div className="text-center">
           <Link
             href="/news"
-            className="mx-auto flex h-40 w-100 items-center justify-center rounded-md border border-gray-500 text-color-primary md:w-[240px]"
+            className="mx-auto flex items-center justify-center rounded-md border border-gray-500 text-color-primary md:w-[240px]"
           >
             MORE
           </Link>

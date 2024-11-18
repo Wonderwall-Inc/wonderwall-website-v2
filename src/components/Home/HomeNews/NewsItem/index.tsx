@@ -15,8 +15,7 @@ const getNewsFormattedDate = (date: Date) => {
 }
 
 export const HomeNewsItem = ({ newsPost }: Props) => {
-
-  const classNames = ["inline-block", "w-[120px]", "text-center", 'bg-grey-22', 'text-textColor'];
+  const classNames = ["inline-block", "w-[120px]", "text-center", 'bg-grey-200', 'text-textColor'];
   const category = newsPost?.externallink ? 'PRESS' : 'INFO'
   const linkClassNames = 'font-thin w-100 md:flex-1'
 

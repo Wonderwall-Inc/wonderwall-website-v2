@@ -20,6 +20,7 @@ export async function GET(
   const token = req.cookies.get(payloadToken)?.value
   const { searchParams } = new URL(req.url)
   const path = searchParams.get('path')
+  const locale = searchParams.get('locale')
   const collection = searchParams.get('collection') as CollectionSlug
   const slug = searchParams.get('slug')
 
@@ -50,15 +51,17 @@ export async function GET(
       return new Response('You are not allowed to preview this page', { status: 403 })
     }
 
-    // Verify the given slug exists
+    const isSlugAnId = Number(slug)
+
+    const idQuery = { id: { equals: parseInt(slug) } }
+    const slugQuery = { slug: { equals: slug } }
+
     try {
       const docs = await payload.find({
         collection: collection,
-        where: {
-          slug: {
-            equals: slug,
-          },
-        },
+        limit: 1,
+        locale: locale as any,
+        where: isSlugAnId ? idQuery : slugQuery
       })
 
       if (!docs.docs.length) return new Response('Document not found', { status: 404 })

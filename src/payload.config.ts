@@ -31,7 +31,6 @@ import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-import { seedHandler } from './endpoints/seedHandler'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -123,15 +122,6 @@ export default buildConfig({
   collections: [Pages, Posts, Media, Categories, Users, JobListings],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  endpoints: [
-    // The seed endpoint is used to populate the database with some example data
-    // You should delete this endpoint before deploying your site to production
-    {
-      handler: seedHandler,
-      method: 'get',
-      path: '/seed',
-    },
-  ],
   globals: [Header, Footer],
   localization: {
     locales: ['en', 'ja'],

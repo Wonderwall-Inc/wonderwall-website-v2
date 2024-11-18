@@ -1,6 +1,6 @@
 import { CMSLink } from "@/components/Link";
 import { Footer, Page } from "@/payload-types";
-import { getLocale } from "@/utilities/getLocale";
+import { useLocale } from "next-intl";
 
 interface Props {
   category: string
@@ -9,7 +9,7 @@ interface Props {
 
 export const FooterLinkCategory = (props: Props) => {
 
-  const locale = getLocale()
+  const locale = useLocale()
 
   let localizedCategory: string | null = null
 

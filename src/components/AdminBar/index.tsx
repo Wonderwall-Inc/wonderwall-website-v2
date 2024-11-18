@@ -16,7 +16,6 @@ interface CollectionLabel {
 interface CollectionLabels {
   pages: CollectionLabel
   posts: CollectionLabel
-  projects: CollectionLabel
 }
 
 const collectionLabels: CollectionLabels = {
@@ -27,11 +26,7 @@ const collectionLabels: CollectionLabels = {
   posts: {
     plural: 'Posts',
     singular: 'Post',
-  },
-  projects: {
-    plural: 'Projects',
-    singular: 'Project',
-  },
+  }
 }
 
 const Title: React.FC = () => <span>Dashboard</span>
