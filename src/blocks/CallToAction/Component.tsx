@@ -4,7 +4,6 @@ import type { Page } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
-import { getLocale } from '@/utilities/getLocale'
 
 type Props = Extract<Page['layout'][0], { blockType: 'cta' }>
 

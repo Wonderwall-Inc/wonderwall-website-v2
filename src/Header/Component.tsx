@@ -1,20 +1,20 @@
 import { HeaderClient } from './Component.client'
-import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 import configPromise from '@payload-config'
 
 import type { Header } from '@/payload-types'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
-import { getLocale } from '@/utilities/getLocale'
+import { getLocale } from 'next-intl/server'
+import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap'
 
 export async function Header() {
-
+  const locale = await getLocale()
   const payload = await getPayloadHMR({ config: configPromise })
 
   const header = await payload.findGlobal({
     slug: 'header',
     depth: 1,
-    locale: getLocale() === 'ja-jp' ? 'ja' : 'en'
+    locale: urlLocaleToLangCodeMap.get(locale)
   })
 
 

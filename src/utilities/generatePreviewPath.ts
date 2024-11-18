@@ -13,7 +13,6 @@ type Props = {
 }
 
 export const generatePreviewPath = ({ locale, collection, slug }: Props): string => {
-  console.log({ collection, slug })
 
   let path = ''
   const pathLocale = locale === 'ja' ? 'ja-jp' : locale
@@ -23,7 +22,7 @@ export const generatePreviewPath = ({ locale, collection, slug }: Props): string
       path = `/${pathLocale}/${slug}`
       break
     case 'posts':
-      path = `/${pathLocale}/${collectionPrefixMap[collection]}${slug}`
+      path = `/${pathLocale}/${collectionPrefixMap[collection]}/${slug}`
       break
     case 'jobListings':
       path = `/${pathLocale}/recruitment/${slug}`
@@ -31,8 +30,8 @@ export const generatePreviewPath = ({ locale, collection, slug }: Props): string
       break
   }
 
-
   const params = {
+    locale,
     slug,
     collection,
     path,

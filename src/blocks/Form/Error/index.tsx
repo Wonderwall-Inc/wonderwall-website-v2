@@ -1,10 +1,19 @@
-import { getLocale } from '@/utilities/getLocale'
+import { getErrorMessage } from '@/utilities/getErrorMessage'
+import { useLocale } from 'next-intl'
 import * as React from 'react'
 
 interface Props {
-  message: string
+  customError?: {
+    errorType: string
+    label: string
+    locale: string
+  }
+  message?: string
 }
 
-export const Error: React.FC<Props> = (props) => {
-  return <div className="leading-none text-red-500 font-bold text-sm">{props.message}</div>
+
+
+export const Error: React.FC<Props> = ({ customError, message }) => {
+  let errorMessage: string | null = customError ? getErrorMessage(customError) : message ?? ''
+  return <div className="leading-none text-red-500 font-bold text-sm">{errorMessage}</div>
 }

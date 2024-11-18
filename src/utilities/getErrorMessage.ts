@@ -1,12 +1,11 @@
-import { getLocale } from "./getLocale"
 
 interface Props {
-  label?: string
-  errorType: 'required'
+  label: string
+  errorType: string
+  locale: string
 }
 
-export const getErrorMessage = ({ errorType, label }: Props) => {
-  const locale = getLocale()
+export const getErrorMessage = ({ errorType, label, locale }: Props) => {
 
   if (errorType === 'required') {
 
@@ -14,8 +13,8 @@ export const getErrorMessage = ({ errorType, label }: Props) => {
       return `${label}を入力してください。`
     }
 
-    if (locale === 'en') {
-      return `${label} field is required.`
+    if (locale === 'en-us') {
+      return `This field is required.`
     }
   }
 

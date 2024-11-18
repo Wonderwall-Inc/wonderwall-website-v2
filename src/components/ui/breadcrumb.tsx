@@ -1,11 +1,13 @@
-import { urlPaths } from '@/constants/urlPaths';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export type BreadCrumbProp = {
-  path: string,
+  path: string
+  jobPage?: string
 }
 
 export default function BreadCrumb(props: BreadCrumbProp) {
+  const t = useTranslations('urlPaths')
 
   const paths: {
     path?: string,
@@ -13,27 +15,40 @@ export default function BreadCrumb(props: BreadCrumbProp) {
   }[] = [];
 
   props.path.split('/').map((path, index, array) => {
-    const fullpath = array.slice(0, index + 1).join('/');
-    const pathInfo = urlPaths.find(info => info.path === (fullpath === '' ? '/' : fullpath));
+    const pathInfo = path !== '' ? path : undefined
+    if (!pathInfo) return
+
+    const isLastElement = index + 1 === array.length
+
     paths.push({
-      path: (pathInfo && props.path === pathInfo?.path) ? undefined : pathInfo?.path ?? undefined,
-      label: pathInfo?.pageTitle ?? pathInfo?.label ?? ''
-    });
+      path: isLastElement && !props.jobPage ? '/' : t(`${pathInfo}.path`),
+      label: t(`${pathInfo}.label`),
+    })
   });
 
   return (
     <div className="breadcrumb">
       <ul className="flex justify-start text-center">
+        <li>
+          <Link href="/">
+            {t('home.label')}
+          </Link>
+        </li>
         {paths.map((path, index) => {
           return (
-            <li key={`breadcrumb_li_${index}`}>
-              {path.path
-                ? <Link key={`breadcrumb_${index}`} href={path.path}>{path.label}</Link>
-                : <span key={`breadcrumb_${index}`}>{path.label}</span>
+            <li key={index}>
+              {path.path?.length
+                ? <Link href={path.path}>{path.label}</Link>
+                : <span>{path.label}</span>
               }
             </li>
           )
         })}
+        {props.jobPage && (
+          <li>
+            <span>{props.jobPage}</span>
+          </li>
+        )}
       </ul>
     </div>
   )

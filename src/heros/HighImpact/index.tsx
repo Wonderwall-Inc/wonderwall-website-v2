@@ -7,7 +7,6 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
-import { getLocale } from '@/utilities/getLocale'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -23,7 +22,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           <Media fill imgClassName="-z-10 object-cover hero-img" priority resource={media} />
         )}
       </div>
-      <div className="w-100p lg:w-960 relative z-20 mx-auto flex h-full flex-col items-start justify-center px-[10px] lg:px-0 py-10 text-left text-white font-thin md:py-15">
+      <div className="w-100p lg:w-960 relative z-20 mx-auto flex h-full flex-col items-start justify-center px-[15px] lg:px-0 py-10 text-left text-white font-thin md:py-15">
         <div className="max-w-[34rem]">
           {richText && <RichText className="high-impact-text mb-6 text-white" content={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (

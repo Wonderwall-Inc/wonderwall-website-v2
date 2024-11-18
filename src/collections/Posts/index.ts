@@ -75,27 +75,18 @@ export const Posts: CollectionConfig = {
     {
       name: 'thumbnail',
       type: 'upload',
-<<<<<<< HEAD
       required: false,
-=======
->>>>>>> WWSITE-10
       relationTo: 'media'
     },
     {
       name: 'externallink',
-<<<<<<< HEAD
       label: 'External Link (Must only be used for linking to external websites)',
-=======
->>>>>>> WWSITE-10
       type: 'text',
       required: false
     },
     {
       name: 'internallink',
-<<<<<<< HEAD
       label: 'Internal Link (Must only be used for linking to internal pages like /recruitment, /services, etc)',
-=======
->>>>>>> WWSITE-10
       type: 'text',
       required: false
     },
@@ -121,10 +112,7 @@ export const Posts: CollectionConfig = {
                 },
               }),
               label: false,
-<<<<<<< HEAD
               required: false,
-=======
->>>>>>> WWSITE-10
             },
           ],
           label: 'Content',

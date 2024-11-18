@@ -8,6 +8,8 @@ import React from 'react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 import { getErrorMessage } from '@/utilities/getErrorMessage'
+import { getLocale } from 'next-intl/server'
+import { useLocale } from 'next-intl'
 
 export const Textarea: React.FC<
   TextField & {
@@ -29,12 +31,14 @@ export const Textarea: React.FC<
   rows = 9,
   width,
 }) => {
+    const locale = useLocale()
     return (
       <Width width={width}>
         <div className='flex mb-2 gap-[5px]'>
           <Label htmlFor={name}>{label}</Label>
-          {requiredFromProps && errors[name] &&
-            <Error message={getErrorMessage({ errorType: 'required', label })} />}
+          {requiredFromProps && errors[name] && label &&
+            <Error customError={{ errorType: 'required', label, locale }} />
+          }
         </div>
 
         <TextAreaComponent
