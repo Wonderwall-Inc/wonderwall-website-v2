@@ -1,4 +1,4 @@
-import type { CollectionConfig, PaginatedDocs, SingleRelationshipField } from 'payload'
+import type { CollectionConfig, PaginatedDocs } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -38,11 +38,11 @@ export const Pages: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: async ({ data, locale, ...rest }) => {
+      url: async ({ data, locale, payload }) => {
         let parentDoc: PaginatedDocs<Page> | undefined = undefined
 
         if (data.parent) {
-          parentDoc = await rest.payload.find({
+          parentDoc = await payload.find({
             collection: 'pages',
             where: {
               id: {
@@ -56,13 +56,10 @@ export const Pages: CollectionConfig = {
           locale: locale.code === 'en' ? 'en-us' : 'ja',
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'pages',
-          parentSlug: parentDoc?.docs[0].slug ?? undefined
+          parentSlug: parentDoc?.docs[0].slug === 'home' ? '' : parentDoc?.docs[0].slug ?? undefined
         })
 
-
-        const url = process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_SERVER_URL}${path}` : path
-        console.log({ url })
-        return url
+        return process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_SERVER_URL}${path}` : path
       },
     },
     preview: (data, options) => {
@@ -70,9 +67,8 @@ export const Pages: CollectionConfig = {
         locale: options.locale === 'en' ? 'en-us' : 'ja',
         slug: typeof data?.slug === 'string' ? data.slug : '',
         collection: 'pages',
-        parentSlug: (data.parent as NestedDocParent).slug ?? null
+        parentSlug: (data.parent as NestedDocParent).slug === 'home' ? '' : (data.parent as NestedDocParent).slug ?? null
       })
-      console.log(data.breadcrumbs)
 
       return process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_SERVER_URL}${path}` : path
     },

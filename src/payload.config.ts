@@ -1,7 +1,6 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 
-import { payloadCloudPlugin } from '@payloadcms/plugin-cloud'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
@@ -17,7 +16,7 @@ import {
 import sharp from 'sharp' // editor-import
 import { UnderlineFeature } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload'
+import { buildConfig, TaskConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import Categories from './collections/Categories'
 import { Media } from './collections/Media'
@@ -35,8 +34,9 @@ import { Page, Post } from 'src/payload-types'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+const generateTitle: GenerateTitle<Post | Page> = ({ doc, locale }) => {
+  const wwSiteText = locale === 'en' ? 'WonderWall' : 'ワンダーウォール株式会社'
+  return doc?.title ? `${doc.title} | ${wwSiteText}` : wwSiteText
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
@@ -173,9 +173,6 @@ export default buildConfig({
         },
       },
     }),
-    nestedDocsPlugin({
-      collections: ['categories'],
-    }),
     seoPlugin({
       generateTitle,
       generateURL,
@@ -219,7 +216,6 @@ export default buildConfig({
         },
       },
     }),
-    payloadCloudPlugin(), // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET!,
   sharp,

@@ -13,9 +13,10 @@ export const FormBlock: Block = {
   fields: [
     {
       name: 'form',
+      label: "Form (DONT EDIT)",
       type: 'relationship',
       relationTo: 'forms',
-      required: true,
+      required: true
     },
     {
       name: 'enableIntro',

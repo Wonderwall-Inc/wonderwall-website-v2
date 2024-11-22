@@ -1,4 +1,4 @@
-import { getLocalizedPaths, type CollectionConfig } from 'payload'
+import { CollectionAfterOperationHook, getLocalizedPaths, getPayload, type CollectionConfig } from 'payload'
 
 import {
   BlocksFeature,
@@ -9,6 +9,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
@@ -16,6 +17,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidatePost } from './hooks/revalidatePost'
+import configPromise from '@payload-config'
 
 import {
   MetaDescriptionField,
@@ -174,6 +176,15 @@ export const Posts: CollectionConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'schedulePublish',
+      label: 'Schedule Publish',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'publishedAt',

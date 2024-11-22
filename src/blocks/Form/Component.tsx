@@ -41,7 +41,7 @@ interface FormValues {
   message: string | null
 }
 
-const sendToFormSubmission = async (formID: string | undefined, dataToSend: DataToSend[]) => {
+const sendToPayloadFormSubmission = async (formID: string | undefined, dataToSend: DataToSend[]) => {
   return fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
     body: JSON.stringify({
       form: formID,
@@ -132,14 +132,13 @@ export const FormBlock: React.FC<
 
             if (!formValues['name'] || !formValues['email'] || !formValues['message']) {
               console.error(`Contact form was missing a name, email, or message field. Submitting to form-submissions. Payload: ${formValues}`)
-              req = await sendToFormSubmission(formID, dataToSend)
+              req = await sendToPayloadFormSubmission(formID, dataToSend)
             } else {
-              req = sendToWonderWall(formValues)
+              req = await sendToWonderWall(formValues)
             }
-
+          } else {
+            req = await sendToPayloadFormSubmission(formID, dataToSend)
           }
-
-          req = await sendToFormSubmission(formID, dataToSend)
 
           const res = await req.json()
 
@@ -194,26 +193,24 @@ export const FormBlock: React.FC<
         {!hasSubmitted && (
           <form id={formID} onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 last:mb-0">
-              {formFromProps &&
-                formFromProps.fields &&
-                formFromProps.fields?.map((field, index) => {
-                  const Field: React.FC<any> = fields?.[field.blockType]
-                  if (Field) {
-                    return (
-                      <div className="mb-6 last:mb-0" key={index}>
-                        <Field
-                          form={formFromProps}
-                          {...field}
-                          {...formMethods}
-                          control={control}
-                          errors={errors}
-                          register={register}
-                        />
-                      </div>
-                    )
-                  }
-                  return null
-                })}
+              {formFromProps.fields?.map((field, index) => {
+                const Field: React.FC<any> = fields?.[field.blockType]
+                if (Field) {
+                  return (
+                    <div className="mb-6 last:mb-0" key={index}>
+                      <Field
+                        form={formFromProps}
+                        {...field}
+                        {...formMethods}
+                        control={control}
+                        errors={errors}
+                        register={register}
+                      />
+                    </div>
+                  )
+                }
+                return null
+              })}
             </div>
 
             <Button form={formID} type="submit" variant="default">

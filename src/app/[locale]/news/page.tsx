@@ -17,7 +17,7 @@ export default async function Page({ params }) {
   setRequestLocale(locale);
   const payload = await getPayload({ config: configPromise })
 
-  const newsPosts = await payload.find({
+  const page = await payload.find({
     collection: 'posts',
     depth: 1,
     limit: 5,
@@ -38,7 +38,7 @@ export default async function Page({ params }) {
           <div className="px-[15px] py-[15px] m-auto lg:px-0 text-left md:py-[30px]">
             <h2 className="mb-3 text-2xl text-color-primary md:text-3xl lg:text-4xl">News</h2>
             <ul className='mb-5'>
-              {newsPosts.docs.map((newsPost, index) => (
+              {page.docs.map((newsPost, index) => (
                 <HomeNewsItem key={index} newsPost={newsPost} />
               ))}
             </ul>
@@ -46,8 +46,8 @@ export default async function Page({ params }) {
         </section>
 
         <div className="container">
-          {newsPosts.totalPages > 1 && newsPosts.page && (
-            <Pagination page={Number(newsPosts.page)} totalPages={newsPosts.totalPages} locale={(await params).locale} />
+          {page.totalPages > 1 && page.page && (
+            <Pagination page={Number(page.page)} totalPages={page.totalPages} locale={(await params).locale} />
           )}
         </div>
       </div>

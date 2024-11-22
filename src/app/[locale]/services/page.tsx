@@ -20,7 +20,7 @@ export default async function Page({ params }) {
 
   return (
     <div className='px-[15px] lg:px-[0px] w-100p lg:w-960 m-auto'>
-      <BreadCrumb path="/services" />
+      <BreadCrumb breadcrumbs={page.breadcrumbs} path="/services" />
       <div className='services'>
         <section className="service">
           <RenderBlocks blocks={page.layout} />

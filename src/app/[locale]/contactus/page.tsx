@@ -11,14 +11,17 @@ import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { setRequestLocale } from 'next-intl/server';
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap';
 
+export const dynamic = 'force-static'
+
 export default async function Page({ params }) {
   const locale = (await params).locale
   setRequestLocale(locale);
   const page = await queryPageBySlug({ locale })
+
   return (
     <div className="px-[15px] lg:px-0">
       <div className="w-960 m-auto">
-        <BreadCrumb path="/contactus" />
+        <BreadCrumb breadcrumbs={page.breadcrumbs} path="/contactus" />
       </div>
       <div className='contact-form w-100p lg:w-720 m-auto py-[15px] md:py-[30px]'>
         <RenderBlocks blocks={page.layout} />

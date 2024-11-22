@@ -15,8 +15,8 @@ export const revalidate = 600
 
 export default async function Page({ params }) {
   const locale = (await params).locale
-  const t = await getTranslations('recruitmentPage')
   setRequestLocale(locale);
+  const t = await getTranslations('recruitmentPage')
   const payload = await getPayload({ config: configPromise })
   const { isEnabled: draft } = await draftMode()
 
