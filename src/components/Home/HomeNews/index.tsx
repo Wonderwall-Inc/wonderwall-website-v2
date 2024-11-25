@@ -22,6 +22,7 @@ export const HomeNews = async () => {
       }
     }
   })
+
   return (
     <section className="text-center">
       <div className="w-100p lg:w-960 px-[15px] py-[15px] m-auto lg:px-0 text-left md:py-[30px]">

@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 @import "contact-form.css";
+@import "aboutus/aboutus.css";
 @import "aboutus/privacypolicy.css";
 @import "home.css";
 @import "services.css";

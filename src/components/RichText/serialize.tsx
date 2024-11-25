@@ -14,15 +14,14 @@ import {
   IS_SUPERSCRIPT,
   IS_UNDERLINE,
 } from './nodeFormat'
-import type { Page } from '@/payload-types'
+import type {
+  CallToActionBlock as CTABlockProps,
+  MediaBlock as MediaBlockProps,
+} from '@/payload-types'
 
 export type NodeTypes =
   | DefaultNodeTypes
-  | SerializedBlockNode<
-    | Extract<Page['layout'][0], { blockType: 'cta' }>
-    | Extract<Page['layout'][0], { blockType: 'mediaBlock' }>
-    | BannerBlockProps
-  >
+  | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps>
 
 type Props = {
   nodes: NodeTypes[]
@@ -32,18 +31,14 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
     <Fragment>
       {nodes?.map((node, index): JSX.Element | null => {
-        if (node == null) {
-          return null
-        }
+        if (node == null) return null
 
         if (node.type === 'text') {
           let text = <React.Fragment key={index}>{node.text}</React.Fragment>
-          if (node.format & IS_BOLD) {
-            text = <strong key={index}>{text}</strong>
-          }
-          if (node.format & IS_ITALIC) {
-            text = <em key={index}>{text}</em>
-          }
+
+          if (node.format & IS_BOLD) text = <strong key={index}>{text}</strong>
+          if (node.format & IS_ITALIC) text = <em key={index}>{text}</em>
+
           if (node.format & IS_STRIKETHROUGH) {
             text = (
               <span key={index} style={{ textDecoration: 'line-through' }}>
@@ -51,6 +46,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               </span>
             )
           }
+
           if (node.format & IS_UNDERLINE) {
             text = (
               <span key={index} style={{ textDecoration: 'underline' }}>
@@ -58,12 +54,9 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               </span>
             )
           }
-          if (node.format & IS_SUBSCRIPT) {
-            text = <sub key={index}>{text}</sub>
-          }
-          if (node.format & IS_SUPERSCRIPT) {
-            text = <sup key={index}>{text}</sup>
-          }
+
+          if (node.format & IS_SUBSCRIPT) text = <sub key={index}>{text}</sub>
+          if (node.format & IS_SUPERSCRIPT) text = <sup key={index}>{text}</sup>
 
           return text
         }
