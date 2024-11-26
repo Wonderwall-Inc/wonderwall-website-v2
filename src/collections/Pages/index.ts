@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, PaginatedDocs } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -11,6 +11,12 @@ import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidatePage } from './hooks/revalidatePage'
 
+interface NestedDocParent {
+  id: number
+  title: string
+  slug: string
+}
+
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -19,6 +25,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { FormBlock } from '@/blocks/Form/config'
+import { Page } from '@/payload-types'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -31,11 +38,25 @@ export const Pages: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: ({ data, locale }) => {
+      url: async ({ data, locale, payload }) => {
+        let parentDoc: PaginatedDocs<Page> | undefined = undefined
+
+        if (data.parent) {
+          parentDoc = await payload.find({
+            collection: 'pages',
+            where: {
+              id: {
+                equals: data.parent
+              }
+            }
+          })
+        }
+
         const path = generatePreviewPath({
           locale: locale.code === 'en' ? 'en-us' : 'ja',
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'pages',
+          parentSlug: parentDoc?.docs[0].slug === 'home' ? '' : parentDoc?.docs[0].slug ?? undefined
         })
 
         return process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_SERVER_URL}${path}` : path
@@ -46,6 +67,7 @@ export const Pages: CollectionConfig = {
         locale: options.locale === 'en' ? 'en-us' : 'ja',
         slug: typeof data?.slug === 'string' ? data.slug : '',
         collection: 'pages',
+        parentSlug: (data.parent as NestedDocParent).slug === 'home' ? '' : (data.parent as NestedDocParent).slug ?? null
       })
 
       return process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_SERVER_URL}${path}` : path
@@ -57,6 +79,7 @@ export const Pages: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true
     },
     {
       type: 'tabs',
@@ -72,6 +95,7 @@ export const Pages: CollectionConfig = {
               type: 'blocks',
               blocks: [CallToAction, Content, FormBlock, MediaBlock],
               required: true,
+              localized: true
             },
           ],
           label: 'Content',

@@ -2,18 +2,21 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 import type { Header } from '@/payload-types'
 
 import { HeaderNav } from './Nav'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface HeaderClientProps {
   header: Header
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
+  const locale = useLocale()
+  const t = useTranslations('urlPaths')
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -42,9 +45,24 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
     });
   }
 
+  const path = usePathname();
+  const [localeInPath, pathWithoutLocale] = path.split(`/${locale}/`)
+
+  let pageTitle = ''
+
+  if (path !== `/${locale}`) {
+    const [firstParam, secondParam] = pathWithoutLocale && pathWithoutLocale.split('/')
+    const jobPage = firstParam === 'recruitment' && secondParam
+    const newsPage = firstParam === 'news' && secondParam
+
+    const localizedText = jobPage ? t(`${firstParam}.${secondParam}`) : newsPage ? t(`news.label`) : t(`${pathWithoutLocale}.label`)
+    pageTitle = !localizedText.includes('urlPaths') ? localizedText : ''
+  }
+
+
   return (
-    <header className="font-thin container sticky top-0 z-50 flex items-center flex-col justify-start bg-color-primary text-white-100">
-      <div className="flex items-center w-100p justify-between padding-10 lg:padding-y-15 lg:w-960">
+    <header className="font-thin container sticky top-0 z-50 flex items-center lg:items-start flex-col justify-start bg-color-primary text-white-100">
+      <div className="m-auto flex items-center w-100p justify-between padding-10 lg:padding-y-15 lg:w-960">
         <div className="">
           <Link
             href="/"
@@ -55,7 +73,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
         <div className='flex items-center'>
           <button
             onClick={navToggleClick}
-            className={`menu-icon flex h-40 w-60 items-center justify-center rounded-sm hover:bg-green-250 md:hidden ${values.isNavOpen ? 'open' : values.isOpened ? 'close' : ''}`}
+            className={`menu-icon flex items-center justify-center rounded-sm hover:bg-green-250 md:hidden ${values.isNavOpen ? 'open' : values.isOpened ? 'close' : ''}`}
           >
             <span className='inline-block h-2 w-full bg-white-100'></span>
           </button>
@@ -71,6 +89,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
             <HeaderNav header={header} isNavOpen={values.isNavOpen} />
           </ul>
         </div>
+        : ''
+      }
+      {pageTitle
+        ? <>
+          <div className="w-100p lg:w-960 m-auto text-white">
+            <h2 className="py-[15px] text-2xl px-[15px] lg:py-[30px] lg:px-0 lg:text-4xl">{pageTitle}</h2>
+          </div>
+        </>
         : ''
       }
     </header>

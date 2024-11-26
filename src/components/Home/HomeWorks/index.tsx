@@ -3,7 +3,7 @@ import WorkCard from "./WorkCard";
 export const HomeWorks = () => {
   return (
     <section className="text-center">
-      <div className="m-auto w-100p lg:w-960 px-[10px] py-[15px] text-left md:py-[30px] lg:py-50">
+      <div className="m-auto w-100p lg:w-960 px-[10px] py-[15px] text-left md:py-[30px] lg:py-50 lg:px-0">
         <h2 className="mb-3 text-2xl text-color-primary md:text-3xl lg:text-4xl">Works</h2>
         <div className="work-card grid grid-cols-6 gap-3">
           <WorkCard

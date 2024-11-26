@@ -89,8 +89,7 @@ export default {
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        notoSansJP: ['Noto Sans JP', 'sans-serif']
       },
       keyframes: {
         'accordion-down': {
@@ -105,8 +104,6 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-body': 'var(--text)',
-            '--tw-prose-headings': 'var(--text)',
             h1: {
               fontSize: '4rem',
               fontWeight: 'normal',

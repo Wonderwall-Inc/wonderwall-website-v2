@@ -13,27 +13,12 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
-import { lexicalEditor, UnorderedListFeature } from '@payloadcms/richtext-lexical'
+import { FeatureProviderServer, lexicalEditor, UnorderedListFeature } from '@payloadcms/richtext-lexical'
 
-const vanillaLexicalEditor =
+const createLexicalEditor = (customFeatures?: FeatureProviderServer[]) =>
   lexicalEditor({
-    features: ({ rootFeatures }) => {
-      return [
-        ...rootFeatures,
-      ]
-    },
+    features: ({ rootFeatures }) => customFeatures ? [...rootFeatures, ...customFeatures] : [...rootFeatures]
   })
-
-const unorderedListLexicalEditor =
-  lexicalEditor({
-    features: ({ rootFeatures }) => {
-      return [
-        ...rootFeatures,
-        UnorderedListFeature()
-      ]
-    },
-  })
-
 
 export const JobListings: CollectionConfig = {
   slug: 'jobListings',
@@ -86,7 +71,7 @@ export const JobListings: CollectionConfig = {
       name: 'jobDescription',
       label: 'Job Description',
       type: 'richText',
-      editor: vanillaLexicalEditor,
+      editor: createLexicalEditor(),
       required: true,
       localized: true,
     },
@@ -95,7 +80,7 @@ export const JobListings: CollectionConfig = {
       label: 'Responsibilities',
       type: 'richText',
       localized: true,
-      editor: unorderedListLexicalEditor,
+      editor: createLexicalEditor([UnorderedListFeature()]),
       required: true,
     },
     {
@@ -103,7 +88,7 @@ export const JobListings: CollectionConfig = {
       label: 'Required Skills/Experience',
       type: 'richText',
       localized: true,
-      editor: unorderedListLexicalEditor,
+      editor: createLexicalEditor([UnorderedListFeature()]),
       required: true,
     },
     {
@@ -111,7 +96,7 @@ export const JobListings: CollectionConfig = {
       label: 'Nice To Have Skills',
       type: 'richText',
       localized: true,
-      editor: unorderedListLexicalEditor,
+      editor: createLexicalEditor([UnorderedListFeature()]),
       required: true,
     },
     {
@@ -119,14 +104,14 @@ export const JobListings: CollectionConfig = {
       label: 'Work Location',
       type: 'richText',
       localized: true,
-      editor: unorderedListLexicalEditor,
+      editor: createLexicalEditor([UnorderedListFeature()]),
       required: true,
     },
     {
       name: "workHours",
       label: 'Work Hours',
       type: 'richText',
-      editor: unorderedListLexicalEditor,
+      editor: createLexicalEditor([UnorderedListFeature()]),
       required: true,
       localized: true,
     },
@@ -141,7 +126,7 @@ export const JobListings: CollectionConfig = {
       name: "insurance",
       label: 'Insurance',
       type: 'richText',
-      editor: vanillaLexicalEditor,
+      editor: createLexicalEditor(),
       required: true,
       localized: true
     },

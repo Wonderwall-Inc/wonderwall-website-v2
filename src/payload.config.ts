@@ -1,7 +1,6 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 
-import { payloadCloudPlugin } from '@payloadcms/plugin-cloud'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
@@ -17,7 +16,7 @@ import {
 import sharp from 'sharp' // editor-import
 import { UnderlineFeature } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload'
+import { buildConfig, TaskConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import Categories from './collections/Categories'
 import { Media } from './collections/Media'
@@ -31,13 +30,13 @@ import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-import { seedHandler } from './endpoints/seedHandler'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+const generateTitle: GenerateTitle<Post | Page> = ({ doc, locale }) => {
+  const wwSiteText = locale === 'en' ? 'WonderWall' : 'ワンダーウォール株式会社'
+  return doc?.title ? `${doc.title} | ${wwSiteText}` : wwSiteText
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
@@ -123,15 +122,6 @@ export default buildConfig({
   collections: [Pages, Posts, Media, Categories, Users, JobListings],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  endpoints: [
-    // The seed endpoint is used to populate the database with some example data
-    // You should delete this endpoint before deploying your site to production
-    {
-      handler: seedHandler,
-      method: 'get',
-      path: '/seed',
-    },
-  ],
   globals: [Header, Footer],
   localization: {
     locales: ['en', 'ja'],
@@ -139,6 +129,11 @@ export default buildConfig({
     fallback: true
   },
   plugins: [
+    nestedDocsPlugin({
+      collections: ['pages'],
+      generateLabel: (_, doc) => doc.title as string,
+      generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
+    }),
     s3Storage({
       collections: {
         media: {
@@ -178,20 +173,22 @@ export default buildConfig({
         },
       },
     }),
-    nestedDocsPlugin({
-      collections: ['categories'],
-    }),
     seoPlugin({
       generateTitle,
       generateURL,
-      fieldOverrides: {
-        title: {
+      fields: ({ defaultFields }) => [
+        ...defaultFields,
+        {
+          name: 'title',
+          type: 'text',
           localized: true
         },
-        description: {
+        {
+          name: 'description',
+          type: 'text',
           localized: true
-        }
-      }
+        },
+      ]
     }),
     formBuilderPlugin({
       fields: {
@@ -219,7 +216,6 @@ export default buildConfig({
         },
       },
     }),
-    payloadCloudPlugin(), // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET!,
   sharp,

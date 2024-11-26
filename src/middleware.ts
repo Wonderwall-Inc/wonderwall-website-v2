@@ -1,15 +1,19 @@
-import { NextRequest, NextResponse } from "next/server"
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-export function middleware(request: NextRequest): NextResponse<unknown> {
-  const pathname = request.nextUrl.pathname
+export default createMiddleware(routing);
 
-  if (pathname === '/') {
-    return NextResponse.redirect(new URL('/ja-jp', request.url))
-  }
+export const config = {
+  matcher: [
+    // Enable a redirect to a matching locale at the root
+    '/',
 
-  if (pathname === '/en') {
-    return NextResponse.redirect(new URL(`/en-us`, request.url))
-  }
+    // Set a cookie to remember the previous locale for
+    // all requests that have a locale prefix
+    '/(ja-jp|en-us)/:path*',
 
-  return NextResponse.next()
-}
+    // Enable redirects that add missing locales
+    // (e.g. `/pathnames` -> `/en/pathnames`)
+    '/((?!_next|_vercel|next/preview|admin|api|.*\\..*).*)'
+  ]
+};

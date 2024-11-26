@@ -7,7 +7,6 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
-import { getLocale } from '@/utilities/getLocale'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -17,10 +16,15 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
   })
 
   return (
-    <div className="relative -mt-[10.4rem] flex items-end text-white" data-theme="dark">
-      <div className="container mb-8 z-10 relative">
+    <div className="relative h-[300px] bg-red-50 text-center text-white-100 md:h-[450px] lg:h-[553px]" data-theme="dark">
+      <div className="absolute top-0 left-0 z-10 h-full w-full">
+        {media && typeof media === 'object' && (
+          <Media fill imgClassName="-z-10 object-cover hero-img" priority resource={media} />
+        )}
+      </div>
+      <div className="w-100p lg:w-960 relative z-20 mx-auto flex h-full flex-col items-start justify-center px-[15px] lg:px-0 py-10 text-left text-white font-thin md:py-15">
         <div className="max-w-[34rem]">
-          {richText && <RichText className="mb-6" content={richText} enableGutter={false} />}
+          {richText && <RichText className="high-impact-text mb-6 text-white" content={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (
             <ul className="flex gap-4">
               {links.map(({ link }, i) => {
@@ -33,14 +37,6 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
             </ul>
           )}
         </div>
-      </div>
-      <div className="min-h-[80vh] select-none">
-        {media && typeof media === 'object' && (
-          <React.Fragment>
-            <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
-            <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
-          </React.Fragment>
-        )}
       </div>
     </div>
   )

@@ -60,7 +60,6 @@ export const Card: React.FC<CardProps> = (props) => {
       ref={card.ref}
     >
       <div className="relative w-full ">
-        {!thumbnail && <div className="">No image</div>}
         {thumbnail && <Media className="relative w-full" resource={thumbnail} fill size="360px" />}
       </div>
       <div className="p-4">

@@ -1,31 +1,47 @@
 import { CollectionSlug } from 'payload'
 
 const collectionPrefixMap: Partial<Record<CollectionSlug | 'jobListings', string>> = {
- posts: 'news',
- pages: '',
- jobListings: 'job-listings',
+  posts: 'news',
+  pages: '',
+  jobListings: 'job-listings',
 }
 
 type Props = {
- locale: 'en-us' | 'ja'
- collection: keyof typeof collectionPrefixMap
- slug: string
+  locale: 'en-us' | 'ja'
+  collection: keyof typeof collectionPrefixMap
+  slug: string
+  parentSlug?: string
 }
 
-export const generatePreviewPath = ({ locale, collection, slug }: Props): string => {
- const path = `/${locale}/${collectionPrefixMap[collection]}/${slug}`
+export const generatePreviewPath = ({ locale, collection, slug, parentSlug }: Props): string => {
+  let path = ''
+  const pathLocale = locale === 'ja' ? 'ja-jp' : locale
 
- const params = {
-  slug,
-  collection,
-  path,
- }
+  switch (collection) {
+    case 'pages':
+      path = `/${pathLocale}/${parentSlug ?? ''}/${slug}`
+      break
+    case 'posts':
+      path = `/${pathLocale}/${collectionPrefixMap[collection]}/${parentSlug ?? ''}/${slug}`
+      break
+    case 'jobListings':
+      path = `/${pathLocale}/recruitment/${parentSlug ?? ''}/${slug}`
+    default:
+      break
+  }
 
- const encodedParams = new URLSearchParams()
+  const params = {
+    locale,
+    slug,
+    collection,
+    path,
+  }
 
- Object.entries(params).forEach(([key, value]) => {
-  encodedParams.append(key, value)
- })
+  const encodedParams = new URLSearchParams()
 
- return `/next/preview?${encodedParams.toString()}`
+  Object.entries(params).forEach(([key, value]) => {
+    encodedParams.append(key, value)
+  })
+
+  return `/next/preview?${encodedParams.toString()}`
 }

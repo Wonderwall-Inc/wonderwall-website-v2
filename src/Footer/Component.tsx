@@ -6,8 +6,9 @@ import type { Footer } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import configPromise from '@payload-config'
 import { FooterLinkCategory } from './FooterLink'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
-import { getLocale } from '@/utilities/getLocale'
+import { getPayload } from 'payload'
+import { getLocale } from 'next-intl/server'
+import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap'
 
 type NavItems = Footer['navItems']
 interface AboutLinks {
@@ -48,12 +49,12 @@ const getAboutLinks = (navItems: NavItems, key: string): NavItems => {
 }
 
 export async function Footer() {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const footer = await payload.findGlobal({
     slug: 'footer',
     depth: 1,
-    locale: getLocale() === 'ja-jp' ? 'ja' : 'en'
+    locale: urlLocaleToLangCodeMap.get(await getLocale())
   })
 
 
@@ -64,7 +65,7 @@ export async function Footer() {
   return (
     <footer className="footer flex flex-col items-center text-center">
       <div className="w-100p lg:w-960">
-        <div className="flex flex-col px-[10px] items-center justify-around border-b border-gray-500 py-[15px] md:py-30 lg:flex-row">
+        <div className="flex flex-col px-[15px] items-center justify-around border-b border-gray-500 py-[15px] md:py-30 lg:flex-row">
           <div className="mb-5 flex items-center justify-center lg:mb-0 lg:w-[280px]">
             <Link href="/">
               <Image

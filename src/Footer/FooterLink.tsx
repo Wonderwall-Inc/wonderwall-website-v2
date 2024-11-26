@@ -1,6 +1,6 @@
 import { CMSLink } from "@/components/Link";
 import { Footer, Page } from "@/payload-types";
-import { getLocale } from "@/utilities/getLocale";
+import { useLocale } from "next-intl";
 
 interface Props {
   category: string
@@ -9,7 +9,7 @@ interface Props {
 
 export const FooterLinkCategory = (props: Props) => {
 
-  const locale = getLocale()
+  const locale = useLocale()
 
   let localizedCategory: string | null = null
 
@@ -29,11 +29,8 @@ export const FooterLinkCategory = (props: Props) => {
     }
   }
 
-  console.log(props.category)
-
   return (
     <div className="flex">
-      {/* <ArrowRightCircleIcon className="mr-[10px] w-[20px] text-green-500" /> */}
       <div className="mb-3 text-left">
         <h4 className="mb-2 flex text-xl font-bold text-color-primary">
           <span>{localizedCategory ? localizedCategory : props.category ?? ''}</span>

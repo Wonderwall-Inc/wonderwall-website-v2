@@ -1,5 +1,19 @@
+import { getErrorMessage } from '@/utilities/getErrorMessage'
+import { useLocale } from 'next-intl'
 import * as React from 'react'
 
-export const Error: React.FC = () => {
-  return <div className="mt-2 text-red-500 text-sm">This field is required</div>
+interface Props {
+  customError?: {
+    errorType: string
+    label: string
+    locale: string
+  }
+  message?: string
+}
+
+
+
+export const Error: React.FC<Props> = ({ customError, message }) => {
+  let errorMessage: string | null = customError ? getErrorMessage(customError) : message ?? ''
+  return <div className="leading-none text-red-500 font-bold text-sm">{errorMessage}</div>
 }
