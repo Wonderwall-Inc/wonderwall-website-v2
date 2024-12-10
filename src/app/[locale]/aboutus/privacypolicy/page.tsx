@@ -1,4 +1,3 @@
-
 import { generateMeta } from '@/utilities/generateMeta';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config'
@@ -31,7 +30,6 @@ export default async function Page({ params }) {
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const page = await queryPageBySlug((await params))
-
   return generateMeta({ doc: page })
 }
 

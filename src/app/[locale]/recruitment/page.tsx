@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-
 import BreadCrumb from '@/components/ui/breadcrumb'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { draftMode } from 'next/headers'

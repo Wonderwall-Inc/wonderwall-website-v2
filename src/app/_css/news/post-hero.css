@@ -1,0 +1,14 @@
+.post-hero-container {
+  color: rgb(23, 23, 23) !important;
+  margin-bottom: 2rem !important;
+
+  h1 {
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.5;
+
+    @media (max-width: 490px) {
+      font-size: 1.25rem;
+    }
+  }
+}

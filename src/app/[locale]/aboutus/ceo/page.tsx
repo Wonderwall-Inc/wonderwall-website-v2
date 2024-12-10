@@ -1,4 +1,3 @@
-
 import { generateMeta } from '@/utilities/generateMeta';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config'
@@ -9,6 +8,8 @@ import BreadCrumb from '@/components/ui/breadcrumb';
 import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { setRequestLocale } from 'next-intl/server';
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap';
+
+export const dynamic = 'force-static'
 
 export default async function Page({ params }) {
   const locale = (await params).locale
@@ -29,7 +30,6 @@ export default async function Page({ params }) {
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const page = await queryPageBySlug((await params))
-
   return generateMeta({ doc: page })
 }
 

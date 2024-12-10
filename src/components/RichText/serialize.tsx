@@ -18,9 +18,16 @@ import type {
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
 } from '@/payload-types'
+import { SerializedLexicalNode, Spread } from 'lexical'
+
+export type SerializedTableNode = Spread<{
+  children?: never;
+  type: 'table' | 'tablecell' | 'tablerow';
+}, SerializedLexicalNode>;
 
 export type NodeTypes =
   | DefaultNodeTypes
+  | SerializedTableNode
   | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps>
 
 type Props = {
@@ -114,6 +121,23 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
         } else {
           switch (node.type) {
+            case 'table':
+              return (
+                <table>
+                  <tbody>
+                    {serializedChildren}
+                  </tbody>
+                </table>
+              )
+            case 'tablecell':
+              return <td>{serializedChildren}</td>
+            case 'tablerow': {
+              return (
+                <tr key={index}>
+                  {serializedChildren}
+                </tr>
+              )
+            }
             case 'linebreak': {
               return <br className="col-start-2" key={index} />
             }
@@ -168,6 +192,15 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 <blockquote className="col-start-2" key={index}>
                   {serializedChildren}
                 </blockquote>
+              )
+            }
+            case 'autolink': {
+              console.log({ node })
+              const { fields } = node
+              return (
+                <a style={{ color: 'inherit' }} href={fields.url}>
+                  {serializedChildren}
+                </a>
               )
             }
             case 'link': {

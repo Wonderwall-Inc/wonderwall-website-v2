@@ -1,11 +1,8 @@
 import type { Metadata } from 'next'
-
-import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-
 import { generateMeta } from '@/utilities/generateMeta'
 import { HomeWorks } from '@/components/Home/HomeWorks'
 import { HomeNews } from '@/components/Home/HomeNews'

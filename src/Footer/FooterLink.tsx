@@ -1,5 +1,5 @@
 import { CMSLink } from "@/components/Link";
-import { Footer, Page } from "@/payload-types";
+import { Footer } from "@/payload-types";
 import { useLocale } from "next-intl";
 
 interface Props {

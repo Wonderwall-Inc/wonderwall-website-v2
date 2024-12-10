@@ -7,8 +7,6 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
-import { getErrorMessage } from '@/utilities/getErrorMessage'
-import { getLocale } from 'next-intl/server'
 import { useLocale } from 'next-intl'
 
 export const Textarea: React.FC<

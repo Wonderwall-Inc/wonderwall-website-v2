@@ -2,14 +2,13 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useParams, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 import type { Header } from '@/payload-types'
 
 import { HeaderNav } from './Nav'
 import { useLocale, useTranslations } from 'next-intl'
-import { usePageTitleContext } from '@/providers/PageTitleContext'
 
 interface HeaderClientProps {
   header: Header
@@ -47,7 +46,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
   }
 
   const path = usePathname();
-  const [localeInPath, pathWithoutLocale] = path.split(`/${locale}/`)
+  const [_, pathWithoutLocale] = path.split(`/${locale}/`)
 
   let pageTitle = ''
 
@@ -56,7 +55,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
     const jobPage = firstParam === 'recruitment' && secondParam
     const newsPage = firstParam === 'news' && secondParam
     const aboutPage = firstParam === 'aboutus' && secondParam
-
     const localizedText = jobPage ? t(`${firstParam}.${secondParam}`) : newsPage ? t(`news.label`) : aboutPage ? t(`${secondParam}.label`) : t(`${pathWithoutLocale}.label`)
     pageTitle = !localizedText.includes('urlPaths') ? localizedText : ''
   }

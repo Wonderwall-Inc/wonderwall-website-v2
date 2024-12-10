@@ -1,15 +1,9 @@
-
 import type { Metadata } from 'next'
-
-import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-
 import { generateMeta } from '@/utilities/generateMeta'
-import { HomeWorks } from '@/components/Home/HomeWorks'
-import { HomeNews } from '@/components/Home/HomeNews'
 import { RenderHero } from '@/heros/RenderHero'
 import { setRequestLocale } from 'next-intl/server';
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap'
@@ -51,7 +45,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 }
 
 const queryPageBySlug = cache(async (params) => {
-  const { locale, slug } = (await params)
+  const { locale } = (await params)
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })

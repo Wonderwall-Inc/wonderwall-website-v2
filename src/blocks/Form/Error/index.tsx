@@ -1,5 +1,4 @@
 import { getErrorMessage } from '@/utilities/getErrorMessage'
-import { useLocale } from 'next-intl'
 import * as React from 'react'
 
 interface Props {

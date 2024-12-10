@@ -1,0 +1,28 @@
+.company-table {
+  table {
+    tr {
+      border-top: 2px solid white;
+      border-bottom: 2px solid white;
+      margin: 20px 0;
+
+      @media (max-width: 720px) {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+
+      td {
+        padding: 0.5rem;
+
+        p {
+          margin: 0 !important;
+        }
+      }
+
+      td:first-child {
+        vertical-align: top;
+        background-color: rgb(237 237 237);
+      }
+    }
+  }
+}

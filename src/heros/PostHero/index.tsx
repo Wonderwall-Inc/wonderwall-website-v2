@@ -12,11 +12,13 @@ export const PostHero: React.FC<{
 
   return (
     <div className="relative flex items-end">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
+      <div className="post-hero-container container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
         <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-1">
-          <div className="pb-16">
-            {thumbnail && <Media className="relative w-full" resource={thumbnail} fill />}
-          </div>
+          {thumbnail && (
+            <div className="pb-16">
+              <Media className="relative w-full" resource={thumbnail} fill />
+            </div>
+          )}
           <div className="uppercase text-sm mb-6">
             {categories?.map((category, index) => {
               if (typeof category === 'object' && category !== null) {
@@ -79,11 +81,6 @@ export const PostHero: React.FC<{
             )}
           </div>
         </div>
-      </div>
-      <div className="min-h-[80vh] select-none">
-        {metaImage && typeof metaImage !== 'string' && (
-          <Media fill imgClassName="-z-10 object-cover" resource={metaImage} />
-        )}
       </div>
     </div>
   )

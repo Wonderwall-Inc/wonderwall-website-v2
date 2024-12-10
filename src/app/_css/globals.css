@@ -7,6 +7,9 @@
 @import "contact-form.css";
 @import "aboutus/aboutus.css";
 @import "aboutus/privacypolicy.css";
+@import "aboutus/company.css";
+@import "news/slug.css";
+@import "news/post-hero.css";
 @import "home.css";
 @import "services.css";
 @import "recruitmentPage.css";

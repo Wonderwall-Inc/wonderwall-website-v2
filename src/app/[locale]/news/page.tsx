@@ -4,7 +4,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { HomeNewsItem } from '@/components/Home/HomeNews/NewsItem'
-import Link from 'next/link'
 import BreadCrumb from '@/components/ui/breadcrumb'
 import { setRequestLocale } from 'next-intl/server'
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap'
@@ -20,7 +19,7 @@ export default async function Page({ params }) {
   const page = await payload.find({
     collection: 'posts',
     depth: 1,
-    limit: 5,
+    limit: 2,
     sort: '-publishedAt',
     locale: urlLocaleToLangCodeMap.get(locale),
     where: {
@@ -30,9 +29,13 @@ export default async function Page({ params }) {
     }
   })
 
+  console.log({ page })
+
   return (
     <div className='w-100p lg:w-960 m-auto'>
-      <BreadCrumb path="/news" />
+      <div className="w-100p lg:w-960 m-auto">
+        <BreadCrumb path="/news" />
+      </div>
       <div>
         <section className="text-center">
           <div className="px-[15px] py-[15px] m-auto lg:px-0 text-left md:py-[30px]">

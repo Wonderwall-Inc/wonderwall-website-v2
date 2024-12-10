@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -33,11 +32,11 @@ export default async function Post({ params }) {
   const post = await queryPost({ locale, slug })
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="news-slug-article pt-16 pb-16">
       <PageClient />
       <PostHero post={post} />
       <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container lg:mx-0 lg:grid lg:grid-cols-[1fr_48rem_1fr] grid-rows-[1fr]">
+        <div className="container news-slug-container lg:mx-0 lg:grid lg:grid-cols-[1fr_48rem_1fr] grid-rows-[1fr]">
           {post.content && (
             <RichText
               className="lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[1fr]"
