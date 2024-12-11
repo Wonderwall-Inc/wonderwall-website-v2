@@ -4,11 +4,11 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import { generateMeta } from '@/utilities/generateMeta'
-import { HomeWorks } from '@/components/Home/HomeWorks'
-import { HomeNews } from '@/components/Home/HomeNews'
 import { RenderHero } from '@/heros/RenderHero'
 import { setRequestLocale } from 'next-intl/server';
 import { urlLocaleToLangCodeMap } from '@/constants/urlLocaleToLangCodeMap'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
+import BreadCrumb from '@/components/ui/breadcrumb'
 
 export const dynamic = 'force-static'
 
@@ -19,11 +19,19 @@ export default async function Page({ params }) {
   const page = await queryPageBySlug({ locale, slug: 'home' })
 
   return (
-    <article>
-      <RenderHero {...page.hero} />
-      <HomeWorks />
-      <HomeNews />
-    </article>
+    <div>
+      <div className="w-100p lg:w-960 m-auto">
+        <BreadCrumb breadcrumbs={page.breadcrumbs} path='/aboutus' />
+      </div>
+      <div className='about-us-container'>
+        <RenderHero {...page.hero} />
+      </div>
+      <div className='w-100p px-[15px] lg:w-960 lg:px-0 m-auto'>
+        <div className='w-100p about-us-links'>
+          <RenderBlocks blocks={page.layout} />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -37,7 +45,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 }
 
 const queryPageBySlug = cache(async (params) => {
-  const { locale, slug } = (await params)
+  const { locale } = (await params)
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
@@ -50,7 +58,7 @@ const queryPageBySlug = cache(async (params) => {
     locale: urlLocaleToLangCodeMap.get(locale),
     where: {
       slug: {
-        equals: slug,
+        equals: 'aboutus',
       },
     },
   })

@@ -15,7 +15,7 @@ export type BreadCrumbProp = {
   | null;
 }
 
-export default function BreadCrumb(props: BreadCrumbProp) {
+export default function BreadCrumb({ breadcrumbs, jobPage, path }: BreadCrumbProp) {
   const t = useTranslations('urlPaths')
 
   const paths: {
@@ -23,31 +23,30 @@ export default function BreadCrumb(props: BreadCrumbProp) {
     label: string
   }[] = [];
 
-
   // Pages created in the Payload CMS will have a 'parent' page
   // This creates a custom 'breadcrumbs' property that gets returned in the response
   // If it's a custom page not managed in CMS (pages that make more sense to be managed in he codebase), this function gets called
   // Ideally it would be removed, but because of some limitations of Payload's CMS (lacking tables, etc)
   // Some pages need to be managed in the codebase
   const createBreadcrumbs = () => {
-    props.path.split('/').map((path, index, array) => {
+    path.split('/').map((path, index, array) => {
       const pathInfo = path !== '' ? path : undefined
       if (!pathInfo) return
 
       const isLastElement = index + 1 === array.length
 
       paths.push({
-        path: isLastElement && !props.jobPage ? undefined : t(`${pathInfo}.path`),
+        path: isLastElement && !jobPage ? undefined : t(`${pathInfo}.path`),
         label: t(`${pathInfo}.label`),
       })
     });
 
-    return paths.map((path, index) => {
+    return paths.map(({ path, label }, index) => {
       return (
         <li key={index}>
-          {path.path?.length
-            ? <Link href={path.path}>{path.label}</Link>
-            : <span>{path.label}</span>
+          {path?.length
+            ? <Link href={path}>{label}</Link>
+            : <span>{label}</span>
           }
         </li>
       )
@@ -55,11 +54,11 @@ export default function BreadCrumb(props: BreadCrumbProp) {
   }
 
   const renderBreadcrumbs = () => {
-    return props.breadcrumbs!!.map(({ url, label }, index) => {
+    return breadcrumbs!!.map(({ url, label }, index) => {
       if (url !== '/home' && url!!.length) {
         url = url!!.replace('/home', '')
 
-        const isLastElement = index + 1 === props.breadcrumbs!!.length
+        const isLastElement = index + 1 === breadcrumbs!!.length
 
         return (
           <li key={index}>
@@ -80,10 +79,10 @@ export default function BreadCrumb(props: BreadCrumbProp) {
             {t('home.label')}
           </Link>
         </li>
-        {!props.breadcrumbs ? createBreadcrumbs() : renderBreadcrumbs()}
-        {props.jobPage && (
+        {!breadcrumbs ? createBreadcrumbs() : renderBreadcrumbs()}
+        {jobPage && (
           <li>
-            <span>{props.jobPage}</span>
+            <span>{jobPage}</span>
           </li>
         )}
       </ul>

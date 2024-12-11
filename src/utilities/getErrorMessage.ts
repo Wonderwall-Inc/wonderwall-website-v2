@@ -8,7 +8,6 @@ interface Props {
 export const getErrorMessage = ({ errorType, label, locale }: Props) => {
 
   if (errorType === 'required') {
-
     if (locale === 'ja-jp') {
       return `${label}を入力してください。`
     }

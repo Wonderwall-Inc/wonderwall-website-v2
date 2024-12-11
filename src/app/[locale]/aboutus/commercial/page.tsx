@@ -1,3 +1,4 @@
+
 import { generateMeta } from '@/utilities/generateMeta';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config'
@@ -17,11 +18,11 @@ export default async function Page({ params }) {
   const page = await queryPageBySlug({ locale })
 
   return (
-    <div className="px-[15px] lg:px-0">
-      <div className="w-960 m-auto">
-        <BreadCrumb breadcrumbs={page.breadcrumbs} path="/contactus" />
+    <div className="privacy-policy-container px-[15px] lg:px-0">
+      <div className="w-100p lg:w-960 m-auto">
+        <BreadCrumb breadcrumbs={page.breadcrumbs} path="/commercial" />
       </div>
-      <div className='contact-form w-100p lg:w-720 m-auto py-[15px] md:py-[30px]'>
+      <div className='company-table w-100p lg:w-720 m-auto py-[15px] md:py-[30px]'>
         <RenderBlocks blocks={page.layout} />
       </div>
     </div>
@@ -30,7 +31,6 @@ export default async function Page({ params }) {
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const page = await queryPageBySlug((await params))
-
   return generateMeta({ doc: page })
 }
 
@@ -47,7 +47,7 @@ const queryPageBySlug = cache(async ({ locale }) => {
     locale: urlLocaleToLangCodeMap.get(await locale),
     where: {
       slug: {
-        equals: 'contactus'
+        equals: 'commercial'
       }
     }
   })

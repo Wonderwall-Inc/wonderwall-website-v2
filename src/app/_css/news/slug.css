@@ -1,0 +1,21 @@
+.news-slug-article {
+  @media (max-width: 1024px) {
+    width: 650px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 720px) {
+    width: 450px;
+  }
+
+  @media (max-width: 490px) {
+    width: 100%;
+    padding: 15px;
+  }
+}
+
+.news-slug-container {
+  p {
+    color: black;
+  }
+}

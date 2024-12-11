@@ -3,7 +3,6 @@ import { cn } from 'src/utilities/cn'
 import React from 'react'
 
 import type { Page, Post } from '@/payload-types'
-import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/routing'
 
 type CMSLinkType = {
@@ -31,7 +30,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     newTab,
     reference,
     size: sizeFromProps,
-    url,
+    url
   } = props
 
   const href =

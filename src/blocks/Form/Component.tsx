@@ -60,7 +60,7 @@ const sendToWonderWall = async (formValues: FormValues) => {
     body: JSON.stringify({
       name: formValues['name'],
       email: formValues['email'],
-      body: formValues['message']
+      message: formValues['message']
     }),
     headers: {
       'Content-Type': 'application/json'
@@ -115,13 +115,12 @@ export const FormBlock: React.FC<
 
         try {
           let req
-
+          let formValues: FormValues = {
+            name: null,
+            email: null,
+            message: null
+          }
           if (process.env.NODE_ENV === 'production') {
-            let formValues: FormValues = {
-              name: null,
-              email: null,
-              message: null
-            }
 
             dataToSend.forEach(data => {
               if (data.field === 'name' || data.field === 'email' || data.field === 'message') {
@@ -160,17 +159,13 @@ export const FormBlock: React.FC<
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
-
             const redirectUrl = url
-
             if (redirectUrl) router.push(redirectUrl)
           }
         } catch (err) {
           console.warn(err)
           setIsLoading(false)
-          setError({
-            message: 'Something went wrong.',
-          })
+          setError({ message: 'Something went wrong.', })
         }
       }
 
