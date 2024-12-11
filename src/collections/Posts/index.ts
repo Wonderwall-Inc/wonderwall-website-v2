@@ -1,4 +1,4 @@
-import { getLocalizedPaths, type CollectionConfig } from 'payload'
+import { type CollectionConfig } from 'payload'
 
 import {
   BlocksFeature,
@@ -40,7 +40,7 @@ export const Posts: CollectionConfig = {
       url: ({ data, locale }) => {
         const path = generatePreviewPath({
           locale: locale.code === 'en' ? 'en-us' : 'ja',
-          slug: typeof data?.slug === 'string' ? data.slug : '',
+          slug: data?.slug.length ? data.slug : data?.id ? data?.id.toString() : '',
           collection: 'posts',
         })
 
@@ -50,7 +50,7 @@ export const Posts: CollectionConfig = {
     preview: (data, options) => {
       const path = generatePreviewPath({
         locale: options.locale === 'en' ? 'en-us' : 'ja',
-        slug: typeof data?.slug === 'string' ? data.slug : '',
+        slug: (data?.slug as string).length ? data.slug as string : data?.id ? data?.id.toString() : '',
         collection: 'posts',
       })
 
@@ -75,8 +75,20 @@ export const Posts: CollectionConfig = {
     {
       name: 'thumbnail',
       type: 'upload',
-      required: true,
+      required: false,
       relationTo: 'media'
+    },
+    {
+      name: 'externallink',
+      label: 'External Link (Must only be used for linking to external websites)',
+      type: 'text',
+      required: false
+    },
+    {
+      name: 'internallink',
+      label: 'Internal Link (Must only be used for linking to internal pages like /recruitment, /services, etc)',
+      type: 'text',
+      required: false
     },
     {
       type: 'tabs',
@@ -100,7 +112,7 @@ export const Posts: CollectionConfig = {
                 },
               }),
               label: false,
-              required: true,
+              required: false,
             },
           ],
           label: 'Content',
@@ -162,6 +174,15 @@ export const Posts: CollectionConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'schedulePublish',
+      label: 'Schedule Publish',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'publishedAt',

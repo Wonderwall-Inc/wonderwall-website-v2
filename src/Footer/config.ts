@@ -3,6 +3,7 @@ import type { GlobalConfig } from 'payload'
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
+
 export const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
@@ -12,12 +13,35 @@ export const Footer: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
+      localized: true,
       fields: [
         link({
           appearances: false,
         }),
+        {
+          name: 'footer_link_category',
+          type: 'radio',
+          options: [
+            {
+              label: 'Services',
+              value: 'services',
+            },
+            {
+              label: 'Recruitment',
+              value: 'recruitment',
+            },
+            {
+              label: 'About',
+              value: 'about',
+            },
+            {
+              label: 'Copyright Link',
+              value: 'copyright_link',
+            },
+          ],
+          label: 'Link Category',
+        },
       ],
-      maxRows: 6,
     },
   ],
   hooks: {

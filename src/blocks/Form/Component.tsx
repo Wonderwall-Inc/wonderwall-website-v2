@@ -30,6 +30,46 @@ export type FormBlockType = {
   }[]
 }
 
+interface DataToSend {
+  field: string
+  value: Property | Property[]
+}
+
+interface FormValues {
+  name: string | null
+  email: string | null
+  message: string | null
+}
+
+const sendToPayloadFormSubmission = async (formID: string | undefined, dataToSend: DataToSend[]) => {
+  return fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
+    body: JSON.stringify({
+      form: formID,
+      submissionData: dataToSend,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+  })
+
+}
+
+const sendToWonderWall = async (formValues: FormValues) => {
+  return fetch('info@wonderwall-g.com', {
+    body: JSON.stringify({
+      name: formValues['name'],
+      email: formValues['email'],
+      message: formValues['message']
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  });
+
+}
+
 export const FormBlock: React.FC<
   {
     id?: string
@@ -74,16 +114,30 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-          })
+          let req
+          let formValues: FormValues = {
+            name: null,
+            email: null,
+            message: null
+          }
+          if (process.env.NODE_ENV === 'production') {
+
+            dataToSend.forEach(data => {
+              if (data.field === 'name' || data.field === 'email' || data.field === 'message') {
+                formValues = { ...formValues, [data.field]: data.value }
+              }
+            }
+            )
+
+            if (!formValues['name'] || !formValues['email'] || !formValues['message']) {
+              console.error(`Contact form was missing a name, email, or message field. Submitting to form-submissions. Payload: ${formValues}`)
+              req = await sendToPayloadFormSubmission(formID, dataToSend)
+            } else {
+              req = await sendToWonderWall(formValues)
+            }
+          } else {
+            req = await sendToPayloadFormSubmission(formID, dataToSend)
+          }
 
           const res = await req.json()
 
@@ -105,17 +159,13 @@ export const FormBlock: React.FC<
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
-
             const redirectUrl = url
-
             if (redirectUrl) router.push(redirectUrl)
           }
         } catch (err) {
           console.warn(err)
           setIsLoading(false)
-          setError({
-            message: 'Something went wrong.',
-          })
+          setError({ message: 'Something went wrong.', })
         }
       }
 
@@ -138,26 +188,24 @@ export const FormBlock: React.FC<
         {!hasSubmitted && (
           <form id={formID} onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 last:mb-0">
-              {formFromProps &&
-                formFromProps.fields &&
-                formFromProps.fields?.map((field, index) => {
-                  const Field: React.FC<any> = fields?.[field.blockType]
-                  if (Field) {
-                    return (
-                      <div className="mb-6 last:mb-0" key={index}>
-                        <Field
-                          form={formFromProps}
-                          {...field}
-                          {...formMethods}
-                          control={control}
-                          errors={errors}
-                          register={register}
-                        />
-                      </div>
-                    )
-                  }
-                  return null
-                })}
+              {formFromProps.fields?.map((field, index) => {
+                const Field: React.FC<any> = fields?.[field.blockType]
+                if (Field) {
+                  return (
+                    <div className="mb-6 last:mb-0" key={index}>
+                      <Field
+                        form={formFromProps}
+                        {...field}
+                        {...formMethods}
+                        control={control}
+                        errors={errors}
+                        register={register}
+                      />
+                    </div>
+                  )
+                }
+                return null
+              })}
             </div>
 
             <Button form={formID} type="submit" variant="default">

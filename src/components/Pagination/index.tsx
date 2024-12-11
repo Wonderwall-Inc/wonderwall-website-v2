@@ -23,6 +23,7 @@ export const Pagination: React.FC<{
 }> = (props) => {
   const router = useRouter()
 
+
   const { className, page, totalPages, locale } = props
   const hasNextPage = page < totalPages
   const hasPrevPage = page > 1
@@ -35,10 +36,12 @@ export const Pagination: React.FC<{
 
 
   return (
-    <div className={cn('my-12', className)}>
+    <div className={cn('py-[20px]', className)}>
       <PaginationComponent>
         <PaginationContent>
-          <PaginationItem>
+          <PaginationItem className='hidden sm:block'>
+
+            {/* Skip to first page */}
             <PaginationFirst
               disabled={isFirstPage}
               onClick={() => {
@@ -47,8 +50,9 @@ export const Pagination: React.FC<{
             />
           </PaginationItem>
 
+          {/* Skip back 2 pages */}
           {totalPages >= 3 && (
-            <PaginationItem>
+            <PaginationItem className='hidden md:block'>
               <PaginationSkip
                 direction="left"
                 disabled={(page - 2) <= 0}
@@ -61,6 +65,7 @@ export const Pagination: React.FC<{
             </PaginationItem>
           )}
 
+          {/* Skip to previous page */}
           <PaginationItem>
             <PaginationPrevious
               disabled={!hasPrevPage}
@@ -101,6 +106,7 @@ export const Pagination: React.FC<{
             </PaginationLink>
           </PaginationItem>
 
+          {/* Skip to next page */}
           {hasNextPage && (
             <PaginationItem>
               <PaginationLink
@@ -113,6 +119,7 @@ export const Pagination: React.FC<{
             </PaginationItem>
           )}
 
+          {/* Render ellipsis if multiple next pages exist */}
           {hasExtraNextPages && (
             <PaginationItem>
               <PaginationEllipsis />
@@ -128,8 +135,9 @@ export const Pagination: React.FC<{
             />
           </PaginationItem>
 
+          {/* Skip next 2 pages */}
           {totalPages >= 3 && (
-            <PaginationItem>
+            <PaginationItem className='hidden md:block'>
               <PaginationSkip
                 direction="right"
                 disabled={(page + 2) > totalPages}
@@ -140,7 +148,8 @@ export const Pagination: React.FC<{
             </PaginationItem>
           )}
 
-          <PaginationItem>
+          {/* Skip to last page */}
+          <PaginationItem className='hidden sm:block'>
             <PaginationLast
               disabled={isLastPage || totalPages <= 2}
               onClick={() => {

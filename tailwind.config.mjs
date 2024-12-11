@@ -35,11 +35,9 @@ export default {
         xl: '2rem',
       },
       screens: {
-        '2xl': '86rem',
-        lg: '64rem',
-        md: '48rem',
-        sm: '40rem',
-        xl: '80rem',
+        sm: '500px',
+        md: '720px',
+        lg: '960px',
       },
     },
     extend: {
@@ -91,8 +89,7 @@ export default {
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        notoSansJP: ['Noto Sans JP', 'sans-serif']
       },
       keyframes: {
         'accordion-down': {
@@ -107,8 +104,6 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-body': 'var(--text)',
-            '--tw-prose-headings': 'var(--text)',
             h1: {
               fontSize: '4rem',
               fontWeight: 'normal',
